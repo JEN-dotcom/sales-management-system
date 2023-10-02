@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "users")
@@ -27,7 +31,8 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Email(message = "Please enter a valid email address")
+    @Email( message = "Please enter a valid email address")
+    @Column(unique = true, name = "email")
     private String email;
 
 }

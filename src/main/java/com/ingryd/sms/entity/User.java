@@ -5,13 +5,18 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
+@Builder
 @Table(name = "users")
 public class User {
     @Id
@@ -34,5 +39,8 @@ public class User {
     @Email( message = "Please enter a valid email address")
     @Column(unique = true, name = "email")
     private String email;
+
+    @Column(name = "phone_number")
+    private String phoneNo;
 
 }

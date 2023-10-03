@@ -6,10 +6,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
-    Product findProductById(long id);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    Product findProductById(Long id);
     Product findProductByCategory(String category);
     Product findProductByName(String name);
-    Product updateProduct(Long id, Product ProductDTO);
     void deleteById(Long id);
 }

@@ -5,13 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findUserById(long id);
+    User findUserById(Long id);
     User findUserByEmail(String email);
     void deleteById(Long id);
     User findUserByFirstName(String firstName);
-
-    User updateUser(User userDTO);
 
 }

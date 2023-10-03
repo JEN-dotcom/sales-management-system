@@ -1,12 +1,12 @@
-package com.ingryd.sms.Repository;
+package com.ingryd.sms.repository;
 
 import com.ingryd.sms.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ProductRepository extends JpaRepository<Product, Integer> {
-    Optional<Product> findProductById(long id);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    
     Optional<Product> findProductByCategory(String category);
     Optional<Product> findProductByName(String name);
 }

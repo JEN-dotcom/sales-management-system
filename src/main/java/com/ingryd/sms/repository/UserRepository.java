@@ -1,4 +1,4 @@
-package com.ingryd.sms.Repository;
+package com.ingryd.sms.repository;
 
 import com.ingryd.sms.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

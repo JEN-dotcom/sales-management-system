@@ -21,35 +21,28 @@ public class Product {
     private long id;
 
     @NotBlank
-    @NotNull
     @Column(name = "product_name")
     private String name;
 
     @NotBlank
-    @NotNull
     @NotEmpty
     @Column(name = "product_price")
     private double price;
 
     @NotBlank
-    @NotNull
     @Column(name = "description")
     private String description;
 
-
     @NotBlank
-    @NotNull
     @Column(name = "stock_qty")
     private int stock;
 
     @NotBlank
-    @NotNull
     @NotEmpty
-    @Column(name = "brand_name")
+    @Column(unique = true, name = "brand_name")
     private String brand;
 
     @NotBlank
-    @NotNull
     @NotEmpty
     @Column(name = "category")
     private String category;

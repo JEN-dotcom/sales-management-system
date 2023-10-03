@@ -137,6 +137,10 @@ The Service Architecture defines the methods and functionality for managing prod
   - Description: Retrieve product details by ID.
   - Functionality: Retrieves and returns detailed information about a specific product based on its unique identifier.
 
+- **getProductByBrandName(String brandName):**
+  - Description: Retrieve list of products by a brand.
+  - Functionality: Retrieves and returns a paginated list of products based on the unique brand name.
+  
 - **createProduct(ProductDTO productDTO):**
   - Description: Create a new product.
   - Functionality: Accepts product data and creates a new product in the system, returning the details of the newly created product.

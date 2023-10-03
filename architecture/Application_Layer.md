@@ -277,7 +277,6 @@ The DTO architecture defines the structures of Data Transfer Objects used for ef
 
 #### Fields:
 
-- **id:** The unique identifier for the order.
 - **UserId:** The ID of the User who placed the order.
 - **orderDate:** The date and time when the order was placed.
 - **[Other Relevant Fields]:** Any other relevant fields related to orders.

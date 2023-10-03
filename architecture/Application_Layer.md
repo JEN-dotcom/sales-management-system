@@ -189,9 +189,9 @@ The Service Architecture defines the methods and functionality for managing prod
   - Description: Retrieve order details by ID.
   - Functionality: Fetches and returns detailed information about a specific order based on its unique identifier.
 
-- **createOrder(OrderDTO orderDTO):**
+- **createOrder(User user, List<OrderItemDTO> orderItemDTOList):**
   - Description: Create a new order.
-  - Functionality: Accepts order data and creates a new order, returning the details of the newly created order.
+  - Functionality: Accepts user data and a list of orderItemDTO, then creates a new order, returning the details of the newly created order.
 
 - **updateOrder(Long id, OrderDTO orderDTO):**
   - Description: Update an existing order.
@@ -294,9 +294,7 @@ The DTO architecture defines the structures of Data Transfer Objects used for ef
 
 #### Fields:
 
-- **id:** The unique identifier for the order item.
-- **orderId:** The ID of the order to which the item belongs.
-- **productId:** The ID of the product included in the order item.
+- **product:** The product included in the order item.
 - **quantity:** The quantity of the product in the order item.
 - **[Other Relevant Fields]:** Any other relevant fields related to order items.
 

@@ -1,8 +1,11 @@
 package com.ingryd.sms.entity;
 
 import jakarta.persistence.*;
+import lombok.Setter;
+
 import java.util.Date;
 
+@Setter
 @Entity
 @Table(name = "invoices")
 public class Invoice {

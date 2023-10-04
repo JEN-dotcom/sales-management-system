@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.User;
+import com.ingryd.sms.error.ObjectNotFoundException;
 import com.ingryd.sms.model.OrderItemDTO;
 import com.ingryd.sms.repository.OrderRepository;
 
@@ -90,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("not"));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Order does not exist"));
 
         return order;
     }

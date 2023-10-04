@@ -3,7 +3,6 @@ package com.ingryd.sms.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,14 +32,13 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-
     @NotBlank
     @Column(name = "stock_qty")
     private int stock;
 
     @NotBlank
     @NotEmpty
-    @Column(name = "brand_name")
+    @Column(unique = true, name = "brand_name")
     private String brand;
 
     @NotBlank

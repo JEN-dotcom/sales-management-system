@@ -30,19 +30,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User getUserById(Long id){
-        return userRepository.findUserById(id);
+        return userRepository.findById(id).orElseThrow();
     }
 
     @Override
     @Transactional
     public User getUserByEmail(String email){
-        return userRepository.findUserByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     @Override
     @Transactional
     public User updateUser(Long id, User user){
-        User updatedUser = userRepository.findUserById(id);
+        User updatedUser = userRepository.findById(id).orElseThrow();
         updatedUser.setFirstName(user.getFirstName());
         updatedUser.setLastName(user.getLastName());
         updatedUser.setEmail(user.getEmail());
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User getUserByFirstName(String firstName){
-        return userRepository.findUserByFirstName(firstName);
+        return userRepository.findByFirstName(firstName);
     }
 
 

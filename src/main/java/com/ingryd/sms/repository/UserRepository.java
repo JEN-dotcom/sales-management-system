@@ -4,12 +4,15 @@ import com.ingryd.sms.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findUserById(Long id);
-    User findUserByEmail(String email);
+    Optional<User> findById(Long id);
+    User findByEmail(String email);
     void deleteById(Long id);
-    User findUserByFirstName(String firstName);
+    User findByFirstName(String firstName);
+
 
 }

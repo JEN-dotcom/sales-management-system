@@ -52,7 +52,7 @@ public class UserServiceTest {
     public void testGetUserById() {
         long userId = 1L;
         User user = new User(1L, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
-        when(userRepository.findUserById(userId)).thenReturn((user));
+        when(userRepository.findById(userId).orElseThrow()).thenReturn((user));
 
         User result = userService.getUserById(userId);
         assertEquals(userId, result.getId().longValue());
@@ -62,7 +62,7 @@ public class UserServiceTest {
     public void testGetUserByFirstName(){
         String firstName = "Efe";
         User user = new User(1L, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
-        when(userRepository.findUserByFirstName(firstName)).thenReturn((user));
+        when(userRepository.findByFirstName(firstName)).thenReturn((user));
 
         User result = userService.getUserByFirstName(firstName);
         assertEquals(firstName, result.getFirstName());
@@ -72,7 +72,7 @@ public class UserServiceTest {
     public void testGetUserByEmail(){
         String email = "efe@gmail.com";
         User user = new User(1L, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
-        when(userRepository.findUserByEmail(email)).thenReturn(user);
+        when(userRepository.findByEmail(email)).thenReturn(user);
 
         User result = userService.getUserByEmail(email);
         assertEquals(email, result.getEmail());
@@ -92,7 +92,7 @@ public class UserServiceTest {
         Long userId = 1L;
         User user = new User(userId, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
 
-        when(userRepository.findUserById(userId)).thenReturn(user);
+        when(userRepository.findById(userId).orElseThrow()).thenReturn(user);
 
         when(userRepository.save(any(User.class))).thenReturn(user);
 

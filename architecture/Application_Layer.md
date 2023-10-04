@@ -137,6 +137,10 @@ The Service Architecture defines the methods and functionality for managing prod
   - Description: Retrieve product details by ID.
   - Functionality: Retrieves and returns detailed information about a specific product based on its unique identifier.
 
+- **getProductByBrandName(String brandName):**
+  - Description: Retrieve list of products by a brand.
+  - Functionality: Retrieves and returns a paginated list of products based on the unique brand name.
+  
 - **createProduct(ProductDTO productDTO):**
   - Description: Create a new product.
   - Functionality: Accepts product data and creates a new product in the system, returning the details of the newly created product.
@@ -177,21 +181,21 @@ The Service Architecture defines the methods and functionality for managing prod
 
 #### Methods:
 
-- **getAllOrders():**
+- **getAllOrdersPaginated(int pageNumber, int pageSize):**
   - Description: Retrieve a list of all orders.
   - Functionality: Retrieves and returns a paginated list of all orders placed in the system.
+
+- **getOrdersByDatePaginated(...args):**
+  - Description: Retrieve a list of all by date.
+  - Functionality: Retrieves and returns a paginated list of all orders by date or date range.
 
 - **getOrderById(Long id):**
   - Description: Retrieve order details by ID.
   - Functionality: Fetches and returns detailed information about a specific order based on its unique identifier.
 
-- **createOrder(OrderDTO orderDTO):**
+- **createOrder(User user, List<OrderItemDTO> orderItemDTOList):**
   - Description: Create a new order.
-  - Functionality: Accepts order data and creates a new order, returning the details of the newly created order.
-
-- **updateOrder(Long id, OrderDTO orderDTO):**
-  - Description: Update an existing order.
-  - Functionality: Updates the attributes of an existing order based on its unique identifier and the provided order data. Returns the updated order information.
+  - Functionality: Accepts user data and a list of orderItemDTO, then creates a new order, returning the details of the newly created order.
 
 - **deleteOrder(Long id):**
   - Description: Delete an order.
@@ -233,7 +237,7 @@ The Service Architecture defines the methods and functionality for managing prod
   - Description: Retrieve order item details by ID.
   - Functionality: Fetches and returns detailed information about a specific order item based on its unique identifier.
 
-- **createOrderItem(OrderItemDTO orderItemDTO):**
+- **createOrderItem(OrderItemDTO orderItemDTO, Order order):**
   - Description: Create a new order item.
   - Functionality: Accepts order item data and creates a new order item, returning the details of the newly created item.
 
@@ -241,9 +245,9 @@ The Service Architecture defines the methods and functionality for managing prod
   - Description: Update an existing order item.
   - Functionality: Updates the attributes of an existing order item based on its unique identifier and the provided order item data. Returns the updated order item information.
 
-- **deleteOrderItem(Long id):**
+<!-- - **deleteOrderItem(Long id):**
   - Description: Delete an order item.
-  - Functionality: Removes an order item from the system based on its unique identifier.
+  - Functionality: Removes an order item from the system based on its unique identifier. -->
 
 
 ## DTO (Data Transfer Object) Architecture
@@ -273,7 +277,6 @@ The DTO architecture defines the structures of Data Transfer Objects used for ef
 
 #### Fields:
 
-- **id:** The unique identifier for the order.
 - **UserId:** The ID of the User who placed the order.
 - **orderDate:** The date and time when the order was placed.
 - **[Other Relevant Fields]:** Any other relevant fields related to orders.
@@ -291,9 +294,7 @@ The DTO architecture defines the structures of Data Transfer Objects used for ef
 
 #### Fields:
 
-- **id:** The unique identifier for the order item.
-- **orderId:** The ID of the order to which the item belongs.
-- **productId:** The ID of the product included in the order item.
+- **product:** The product included in the order item.
 - **quantity:** The quantity of the product in the order item.
 - **[Other Relevant Fields]:** Any other relevant fields related to order items.
 

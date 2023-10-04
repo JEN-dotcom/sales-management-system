@@ -23,7 +23,8 @@
 
 3. [**Application Layer**](Application_Layer.md)
    - Description
-   - Architectures
+   - Features
+   - Architecture
    - Technologies Used
 
 4. [**Database**](Database.md)

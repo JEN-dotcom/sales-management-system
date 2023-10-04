@@ -1,18 +1,11 @@
-package com.ingryd.sms.repository;
+package com.ingryd.sms.Repository;
 
 import com.ingryd.sms.entity.Order;
-
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.data.domain.PageRequest;
+import com.ingryd.sms.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
-@Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
-
-    List<Order> findByDateBetween(Date startOfDay, Date endOfDay, PageRequest pageRequest);
-     
+public interface OrderRepository extends JpaRepository<Order, Integer> {
+    Product findOrderById(long id);
 }

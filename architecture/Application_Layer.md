@@ -197,6 +197,9 @@ The Service Architecture defines the methods and functionality for managing prod
   - Description: Create a new order.
   - Functionality: Accepts user data and a list of orderItemDTO, then creates a new order, returning the details of the newly created order.
 
+- **deleteOrder(Long id):**
+  - Description: Delete an order.
+  - Functionality: Removes an order from the system based on its unique identifier.
 
 ### InvoiceService
 
@@ -234,7 +237,7 @@ The Service Architecture defines the methods and functionality for managing prod
   - Description: Retrieve order item details by ID.
   - Functionality: Fetches and returns detailed information about a specific order item based on its unique identifier.
 
-- **createOrderItem(OrderItemDTO orderItemDTO):**
+- **createOrderItem(OrderItemDTO orderItemDTO, Order order):**
   - Description: Create a new order item.
   - Functionality: Accepts order item data and creates a new order item, returning the details of the newly created item.
 
@@ -242,9 +245,9 @@ The Service Architecture defines the methods and functionality for managing prod
   - Description: Update an existing order item.
   - Functionality: Updates the attributes of an existing order item based on its unique identifier and the provided order item data. Returns the updated order item information.
 
-- **deleteOrderItem(Long id):**
+<!-- - **deleteOrderItem(Long id):**
   - Description: Delete an order item.
-  - Functionality: Removes an order item from the system based on its unique identifier.
+  - Functionality: Removes an order item from the system based on its unique identifier. -->
 
 
 ## DTO (Data Transfer Object) Architecture

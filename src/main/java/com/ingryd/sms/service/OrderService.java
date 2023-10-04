@@ -1,7 +1,6 @@
 package com.ingryd.sms.service;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 import com.ingryd.sms.entity.Order;
@@ -18,6 +17,5 @@ public interface OrderService {
     public List<Order> getOrdersByDatePaginated(String dateStringDDMMYYYY, int page, int pageSize) throws ParseException;
 
     public List<Order> getOrdersByDatePaginated(String startDateStringDDMMYYYY, String endDateStringDDMMYYYY, int page, int pageSize) throws ParseException;
-
 
 }

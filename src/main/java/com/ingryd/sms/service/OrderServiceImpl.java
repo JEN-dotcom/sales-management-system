@@ -112,9 +112,11 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByDateBetween(startOfDay, endOfDay, pageRequest);
     }
 
-    // @Override
-    // public Order getOrderById(Long id) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'getOrderById'");
-    // }
+    @Override
+    public Order getOrderById(Long id) {
+        Order order =
+        orderRepository.findById(id).orElseThrow(()-> new RuntimeException("not"));
+        
+        return order;
+    }
 }

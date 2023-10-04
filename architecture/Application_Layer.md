@@ -197,9 +197,6 @@ The Service Architecture defines the methods and functionality for managing prod
   - Description: Create a new order.
   - Functionality: Accepts user data and a list of orderItemDTO, then creates a new order, returning the details of the newly created order.
 
-- **deleteOrder(Long id):**
-  - Description: Delete an order.
-  - Functionality: Removes an order from the system based on its unique identifier.
 
 ### InvoiceService
 

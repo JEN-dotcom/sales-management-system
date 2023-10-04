@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return productRepository.findProductById(id);
+        return productRepository.findById(id).orElseThrow();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updateProduct(Long id, ProductDTO productDTO) {
-        Product updatedProduct = productRepository.findProductById(id);
+        Product updatedProduct = productRepository.findById(id).orElseThrow();
         updatedProduct.setName(productDTO.getName());
         updatedProduct.setCategory(productDTO.getCategory());
         updatedProduct.setBrand(productDTO.getBrand());

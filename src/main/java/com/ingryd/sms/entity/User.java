@@ -18,16 +18,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
-    private long id;
+    private Long id;
 
     @NotBlank
-    @NotNull
+
     @Length(min = 2, max = 30, message = "Name should be at least 2 characters")
     @Column(name = "first_name")
     private String firstName;
 
     @NotBlank
-    @NotNull
+
     @Length(min = 2, max = 30, message = "Name should be at least 2 characters")
     @Column(name = "last_name")
     private String lastName;

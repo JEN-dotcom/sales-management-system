@@ -181,9 +181,13 @@ The Service Architecture defines the methods and functionality for managing prod
 
 #### Methods:
 
-- **getAllOrders():**
+- **getAllOrdersPaginated(int pageNumber, int pageSize):**
   - Description: Retrieve a list of all orders.
   - Functionality: Retrieves and returns a paginated list of all orders placed in the system.
+
+- **getOrdersByDatePaginated(...args):**
+  - Description: Retrieve a list of all by date.
+  - Functionality: Retrieves and returns a paginated list of all orders by date or date range.
 
 - **getOrderById(Long id):**
   - Description: Retrieve order details by ID.
@@ -192,10 +196,6 @@ The Service Architecture defines the methods and functionality for managing prod
 - **createOrder(User user, List<OrderItemDTO> orderItemDTOList):**
   - Description: Create a new order.
   - Functionality: Accepts user data and a list of orderItemDTO, then creates a new order, returning the details of the newly created order.
-
-- **updateOrder(Long id, OrderDTO orderDTO):**
-  - Description: Update an existing order.
-  - Functionality: Updates the attributes of an existing order based on its unique identifier and the provided order data. Returns the updated order information.
 
 - **deleteOrder(Long id):**
   - Description: Delete an order.

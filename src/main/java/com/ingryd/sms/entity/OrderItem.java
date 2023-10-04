@@ -1,8 +1,10 @@
 package com.ingryd.sms.entity;
 
 import jakarta.persistence.*;
+import lombok.Setter;
 
 @Entity
+@Setter
 @Table(name = "order_items")
 public class OrderItem {
 

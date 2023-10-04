@@ -4,7 +4,6 @@ import com.ingryd.sms.entity.User;
 import com.ingryd.sms.model.UserDTO;
 import com.ingryd.sms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,42 +23,41 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User createUser(UserDTO userDTO){
-        return userRepository.save(new User());
+    public User createUser(User user){
+        return userRepository.save(user);
     }
 
     @Override
     @Transactional
     public User getUserById(Long id){
         return userRepository.findUserById(id);
-
     }
 
     @Override
     @Transactional
-    public ResponseEntity<User> GetUserByEmail(String email){
-        return new ResponseEntity<>(userRepository.findUserByEmail(email), HttpStatus.OK);
+    public User getUserByEmail(String email){
+        return userRepository.findUserByEmail(email);
     }
 
     @Override
     @Transactional
-    public User updateUser(Long id, UserDTO userDTO){
+    public User updateUser(Long id, User user){
         User updatedUser = userRepository.findUserById(id);
-        updatedUser.setFirstName(userDTO.getFirstName());
-        updatedUser.setLastName(userDTO.getLastName());
-        updatedUser.setEmail(userDTO.getEmail());
+        updatedUser.setFirstName(user.getFirstName());
+        updatedUser.setLastName(user.getLastName());
+        updatedUser.setEmail(user.getEmail());
 
-        userRepository.save(updatedUser);
-        return updatedUser;
+        return userRepository.save(updatedUser);
 
     }
 
 
     @Override
     @Transactional
-    public User GetUserByFirstName(String firstName){
+    public User getUserByFirstName(String firstName){
         return userRepository.findUserByFirstName(firstName);
     }
+
 
     @Override
     @Transactional
@@ -67,6 +65,5 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
         return ResponseEntity.ok("user successfully deleted");
     }
-
 
 }

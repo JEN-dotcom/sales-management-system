@@ -85,15 +85,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testDeleteUser() {
-        long userId = 1L;
-        doNothing().when(userRepository).deleteById(userId);
-        userService.deleteUser(userId);
-        verify(userRepository, times(1)).deleteById(userId);
-    }
-
-
-    @Test
     public void testUpdateUser() {
         Long userId = 1L;
         User user = new User(userId, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
@@ -108,6 +99,16 @@ public class UserServiceTest {
 
         assertEquals(user, updatedUser);
     }
+
+    @Test
+    public void testDeleteUser() {
+        long userId = 1L;
+        doNothing().when(userRepository).deleteById(userId);
+        userService.deleteUser(userId);
+        verify(userRepository, times(1)).deleteById(userId);
+    }
+
+
 
 }
 

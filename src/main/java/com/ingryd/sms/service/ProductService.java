@@ -14,6 +14,6 @@ public interface ProductService {
     public List<Product> getProductByCategory(String category);
     public List<Product> getProductByName(String name);
     public Product createProduct(Product product);
-    public Product updateProduct(Long id, ProductDTO productDTO);
+    public Product updateProduct(Long id, Product product);
     public ResponseEntity<String> deleteProduct(Long id);
 }

@@ -90,5 +90,27 @@ public class ProductServiceTest {
         assertEquals(name, products.get(1).getName());
     }
 
+    @Test
+    public void testUpdateProduct(){
+        long productId = 1L;
+        Product product = new Product(1L,"Rice", 350000.00, "naija", 100, "Aba", "local", 25);
+        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+        when(productRepository.save(any(Product.class))).thenReturn(product);
+
+        Product updatedProduct = productService.updateProduct(productId, product);
+
+        verify(productRepository, times(1)).save(product);
+
+        assertEquals(product, updatedProduct);
+
+    }
+    @Test
+    public void testDeleteProduct(){
+        long productId = 1L;
+        doNothing().when(productRepository).deleteById(productId);
+        productService.deleteProduct(productId);
+        verify(productRepository, times(1)).deleteById(productId);
+    }
+
 }
 

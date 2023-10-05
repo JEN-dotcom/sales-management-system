@@ -13,7 +13,7 @@ public interface ProductService {
     public Product getProductById(Long id);
     public List<Product> getProductByCategory(String category);
     public List<Product> getProductByName(String name);
-    public Product createProduct(ProductDTO productDTO);
+    public Product createProduct(Product product);
     public Product updateProduct(Long id, ProductDTO productDTO);
     public ResponseEntity<String> deleteProduct(Long id);
 }

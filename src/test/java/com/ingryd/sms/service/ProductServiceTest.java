@@ -31,7 +31,6 @@ public class ProductServiceTest {
     @Autowired
     private ProductService productService;
 
-    private Product product;
 
     @Test
     public void testGetAllProducts(){
@@ -42,8 +41,12 @@ public class ProductServiceTest {
         assertEquals(2, productService.getAllProducts().size());
     }
 
-
-
+    @Test
+    public void testCreateProduct(){
+        Product product = new Product(1L,"Rice", 350000.00, "naija", 100, "Aba", "local", 25);
+        when(productRepository.save(product)).thenReturn(product);
+        assertEquals(product, productService.createProduct(product));
+    }
 
 }
 

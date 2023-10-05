@@ -3,15 +3,19 @@ package com.ingryd.sms.service;
 import com.ingryd.sms.entity.User;
 import com.ingryd.sms.repository.UserRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.*;
@@ -20,6 +24,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = UserServiceImpl.class)
+//@DataJpaTest
 public class UserServiceTest {
 
     @MockBean
@@ -27,6 +32,7 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
+
 
 
     @Test
@@ -52,7 +58,7 @@ public class UserServiceTest {
     public void testGetUserById() {
         long userId = 1L;
         User user = new User(1L, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
-        when(userRepository.findById(userId).orElseThrow()).thenReturn((user));
+        when(userRepository.findById(userId)).thenReturn(Optional.of((user)));
 
         User result = userService.getUserById(userId);
         assertEquals(userId, result.getId().longValue());
@@ -92,7 +98,7 @@ public class UserServiceTest {
         Long userId = 1L;
         User user = new User(userId, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
 
-        when(userRepository.findById(userId).orElseThrow()).thenReturn(user);
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
 
         when(userRepository.save(any(User.class))).thenReturn(user);
 

@@ -61,13 +61,33 @@ public class ProductServiceTest {
     @Test
     public void testGetProductByCategory() {
         String category = "local";
-        Product product = new Product(1L,"Rice", 350000.00, "naija", 100, "Aba", "local", 25);
-        when(productRepository.findByCategory(category)).thenReturn(List.of(product));
+        when(productRepository.findByCategory(category)).thenReturn(
+                Stream.of(
+                                new Product(1L, "Rice", 350000.00, "naija", 100, "Aba", "local", 25),
+                                new Product(2L, "Beans", 450000.00, "naija", 50, "Lagos", "local", 30))
+                        .collect(Collectors.toList()));
 
         List<Product> result = productService.getProductByCategory(category);
 
-        assertEquals(1, result.size());
+        assertEquals(2, result.size());
         assertEquals(category, result.get(0).getCategory());
+        assertEquals(category, result.get(1).getCategory());
+    }
+
+    @Test
+    public void testGetProductByName() {
+        String name = "Rice";
+        when(productRepository.findByName(name)).thenReturn(
+                Stream.of(
+                        new Product(1L, "Rice", 350000.00, "naija", 100, "Aba", "local", 25),
+                        new Product(2L, "Rice", 450000.00, "naija", 50, "Lagos", "local", 30))
+                        .collect(Collectors.toList()));
+
+        List<Product> products = productService.getProductByName(name);
+
+        assertEquals(2, products.size());
+        assertEquals(name, products.get(0).getName());
+        assertEquals(name, products.get(1).getName());
     }
 
 }

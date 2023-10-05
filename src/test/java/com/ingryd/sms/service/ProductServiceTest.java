@@ -48,5 +48,15 @@ public class ProductServiceTest {
         assertEquals(product, productService.createProduct(product));
     }
 
+    @Test
+    public void testGetProductById(){
+        long productId = 1L;
+        Product product = new Product(1L,"Rice", 350000.00, "naija", 100, "Aba", "local", 25);
+        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+
+        Product result = productService.getProductById(productId);
+        assertEquals(productId, result.getId().longValue());
+    }
+
 }
 

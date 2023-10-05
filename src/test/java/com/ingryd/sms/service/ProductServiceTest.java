@@ -58,5 +58,17 @@ public class ProductServiceTest {
         assertEquals(productId, result.getId().longValue());
     }
 
+    @Test
+    public void testGetProductByCategory() {
+        String category = "local";
+        Product product = new Product(1L,"Rice", 350000.00, "naija", 100, "Aba", "local", 25);
+        when(productRepository.findByCategory(category)).thenReturn(List.of(product));
+
+        List<Product> result = productService.getProductByCategory(category);
+
+        assertEquals(1, result.size());
+        assertEquals(category, result.get(0).getCategory());
+    }
+
 }
 

@@ -5,7 +5,7 @@ import com.ingryd.sms.model.ProductDTO;
 import com.ingryd.sms.repository.ProductRepository;
 import com.ingryd.sms.service.ProductService;
 import com.ingryd.sms.service.ProductServiceImpl;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,12 +17,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
+// @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ProductServiceImpl.class)
 public class ProductServiceTest {
 
@@ -31,7 +33,6 @@ public class ProductServiceTest {
 
     @Autowired
     private ProductService productService;
-
 
     @Test
     public void testGetAllProducts(){
@@ -43,7 +44,7 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testCreateProduct(){
+    public void testCreateProduct() {
         ProductDTO productDTO = new ProductDTO("Rice", 350000.00, "naija", 100, "Aba", "local", 25);
         Product product = Product
                 .builder()
@@ -65,9 +66,9 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testGetProductById(){
+    public void testGetProductById() {
         long productId = 1L;
-        Product product = new Product(1L,"Rice", 350000.00, "naija", 100, "Aba", "local", 25);
+        Product product = new Product(1L, "Rice", 350000.00, "naija", 100, "Aba", "local", 25);
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
 
         Product result = productService.getProductById(productId);
@@ -79,8 +80,8 @@ public class ProductServiceTest {
         String category = "local";
         when(productRepository.findByCategory(category)).thenReturn(
                 Stream.of(
-                                new Product(1L, "Rice", 350000.00, "naija", 100, "Aba", "local", 25),
-                                new Product(2L, "Beans", 450000.00, "naija", 50, "Lagos", "local", 30))
+                        new Product(1L, "Rice", 350000.00, "naija", 100, "Aba", "local", 25),
+                        new Product(2L, "Beans", 450000.00, "naija", 50, "Lagos", "local", 30))
                         .collect(Collectors.toList()));
 
         List<Product> result = productService.getProductByCategory(category);
@@ -107,39 +108,31 @@ public class ProductServiceTest {
     }
 
     @Test
-    public void testUpdateProduct(){
+    public void testUpdateProduct() {
         long productId = 1L;
-        Product product = new Product(1L,"Rice", 350000.00, "naija", 100, "Aba", "local", 25);
-        ProductDTO productDTO = new ProductDTO("Beans", 350000.00, "naija", 100, "Aba", "foreign", 25);
-        Product newProduct = Product
-                .builder()
-                .id(1L)
-                .brand(productDTO.getBrand())
-                .category(productDTO.getCategory())
-                .description(productDTO.getDescription())
-                .price(productDTO.getPrice())
-                .stock(productDTO.getStock())
-                .discount(productDTO.getDiscount())
-                .name(productDTO.getName())
-                .build();
 
-        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-        when(productRepository.save(any(Product.class))).thenReturn(newProduct);
+        Product originalProduct = new Product(1L, "Rice", 350000.00, "naija", 100, "Aba", "local", 25);
+
+        ProductDTO productDTO = new ProductDTO("Beans", 350000.00, "naija", 100, "Aba", "foreign", 25);
+
+        when(productRepository.findById(productId)).thenReturn(Optional.of(originalProduct));
+        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> {
+            Product updatedProduct = invocation.getArgument(0);
+
+            assertEquals(originalProduct.getId(), updatedProduct.getId());
+            return updatedProduct;
+        });
 
         Product updatedProduct = productService.updateProduct(productId, productDTO);
 
         verify(productRepository, times(1)).save(any(Product.class));
 
-        assertEquals(newProduct, updatedProduct);
         assertEquals(productDTO.getName(), updatedProduct.getName());
-        System.out.println(product.getName());
-        System.out.println(updatedProduct.getName());
-//        assertNotEquals(product.getName(), updatedProduct.getName());
 
     }
 
     @Test
-    public void testDeleteProduct(){
+    public void testDeleteProduct() {
         long productId = 1L;
         doNothing().when(productRepository).deleteById(productId);
         productService.deleteProduct(productId);
@@ -147,4 +140,3 @@ public class ProductServiceTest {
     }
 
 }
-

@@ -23,8 +23,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return productRepository.save(product);
+    public Product createProduct(ProductDTO productDTO) {
+        Product product = Product.builder()
+                .brand(productDTO.getBrand())
+                .category(productDTO.getCategory())
+                .description(productDTO.getDescription())
+                .price(productDTO.getPrice())
+                .stock(productDTO.getStock())
+                .discount(productDTO.getDiscount())
+                .name(productDTO.getName())
+                .build();
+        return productRepository.save(
+                product);
     }
 
     @Override
@@ -43,18 +53,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long id, Product product) {
+    public Product updateProduct(Long id, ProductDTO productDTO) {
         Product updatedProduct = productRepository.findById(id).orElseThrow();
-        updatedProduct.setName(product.getName());
-        updatedProduct.setCategory(product.getCategory());
-        updatedProduct.setBrand(product.getBrand());
-        updatedProduct.setPrice(product.getPrice());
-        updatedProduct.setDescription(product.getDescription());
-        updatedProduct.setStock(product.getStock());
-        updatedProduct.setDiscount(product.getDiscount());
+        updatedProduct.setName(productDTO.getName());
+        updatedProduct.setCategory(productDTO.getCategory());
+        updatedProduct.setBrand(productDTO.getBrand());
+        updatedProduct.setPrice(productDTO.getPrice());
+        updatedProduct.setDescription(productDTO.getDescription());
+        updatedProduct.setStock(productDTO.getStock());
+        updatedProduct.setDiscount(productDTO.getDiscount());
 
-        productRepository.save(updatedProduct);
-        return updatedProduct;
+        return productRepository.save(updatedProduct);
+
     }
 
     @Override

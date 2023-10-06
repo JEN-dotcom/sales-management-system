@@ -41,7 +41,6 @@ public class InvoiceServiceTest {
         Invoice createdInvoice = invoiceService.createInvoice(invoiceDate, order);
 
         verify(invoiceRepository, times(1)).save(any(Invoice.class));
-
         assertEquals(invoice, createdInvoice);
     }
 

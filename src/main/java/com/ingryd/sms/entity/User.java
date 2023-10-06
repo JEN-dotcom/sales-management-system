@@ -9,11 +9,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
 @Entity
+@Builder
 @Table(name = "users")
 public class User {
     @Id
@@ -34,5 +35,8 @@ public class User {
     @Email(message = "Please enter a valid email address")
     @Column(unique = true, name = "email")
     private String email;
+
+    @Column(name = "phone_number")
+    private String phoneNo;
 
 }

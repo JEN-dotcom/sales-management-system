@@ -65,21 +65,21 @@ public class OrderRepositoryTest {
         orderRepository.save(order);
     }
 
-    // @Test
-    // public void findAllPagination() {
+    @Test
+    public void findAllOrdersPaginated() {
 
-    //     Pageable firstPageWithThreeRecords = PageRequest.of(0, 3);
-    //     Pageable secondPageWithTwoRecords = PageRequest.of(1, 2);
+        Pageable firstPageWithThreeRecords = PageRequest.of(0, 3);
+        Pageable secondPageWithTwoRecords = PageRequest.of(1, 2);
 
-    //     Page<Order> firstPage = orderRepository.findAll(firstPageWithThreeRecords);
-    //     Page<Order> secondPage = orderRepository.findAll(secondPageWithTwoRecords);
+        Page<Order> firstPage = orderRepository.findAll(firstPageWithThreeRecords);
+        Page<Order> secondPage = orderRepository.findAll(secondPageWithTwoRecords);
 
-    //     List<Order> twoOrders = secondPage.getContent();
-    //     List<Order> threeOrders = firstPage.getContent();
+        List<Order> twoOrders = secondPage.getContent();
+        List<Order> threeOrders = firstPage.getContent();
 
-    //     assertEquals(2, twoOrders.size());
-    //     assertEquals(3, threeOrders.size());
-    // }
+        assertEquals(2, twoOrders.size());
+        assertEquals(3, threeOrders.size());
+    }
 
     @Test
     public void findByDatePagination() {

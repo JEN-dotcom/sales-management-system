@@ -16,9 +16,15 @@ import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.OrderItem;
 import com.ingryd.sms.entity.Product;
 import com.ingryd.sms.entity.User;
+import com.ingryd.sms.model.OrderItemDTO;
+import com.ingryd.sms.model.ProductDTO;
 import com.ingryd.sms.repository.OrderRepository;
 import com.ingryd.sms.repository.ProductRepository;
 import com.ingryd.sms.repository.UserRepository;
+import com.ingryd.sms.service.OrderService;
+import com.ingryd.sms.service.OrderServiceImpl;
+import com.ingryd.sms.service.ProductService;
+import com.ingryd.sms.service.ProductServiceImpl;
 
 @SpringBootApplication
 public class SalesManagementSystemApplication {
@@ -29,18 +35,17 @@ public class SalesManagementSystemApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository) {
+	CommandLineRunner run(OrderServiceImpl orderService, ProductServiceImpl productService, UserRepository userRepository, ProductRepository productRepository) {
 		return args -> {
 
 			ClassLoader classLoader = getClass().getClassLoader();
-			File file = new File(classLoader.getResource("data/products.json").getFile());
-
 			ObjectMapper objectMapper = new ObjectMapper();
-			Product[] products = objectMapper.readValue(file, Product[].class);
 
-            for (Product product : products) {
-				
-                productRepository.save(product);
+			File productsFile = new File(classLoader.getResource("data/products.json").getFile());
+			ProductDTO[] productDTOs = objectMapper.readValue(productsFile, ProductDTO[].class);
+
+			for (ProductDTO productDTO : productDTOs) {
+				productService.createProduct(productDTO);
 			}
 
 			User user = User.builder()
@@ -49,24 +54,41 @@ public class SalesManagementSystemApplication {
 					.email("eokoro@gmail.com")
 					.build();
 
-			userRepository.save(user);
+			User created =userRepository.save(user);
 
-			Invoice invoice = new Invoice();
+			File orderItemOneFile = new File(classLoader.getResource("data/orderItemOne.json").getFile());
+			OrderItemDTO[] orderItemOneDTO = objectMapper.readValue(orderItemOneFile, OrderItemDTO[].class);
+			List<OrderItemDTO> orderItemsOneList = new ArrayList<>();
+			for (OrderItemDTO orderItemDTO : orderItemOneDTO) {
+				orderItemsOneList.add(orderItemDTO);
+			}
 
-			List<OrderItem> orderItemsList = new ArrayList<>();
+			File orderItemTwoFile = new File(classLoader.getResource("data/orderItemTwo.json").getFile());
+			OrderItemDTO[] orderItemTwoDTO = objectMapper.readValue(orderItemTwoFile, OrderItemDTO[].class);
+			List<OrderItemDTO> orderItemsTwoList = new ArrayList<>();
+			for (OrderItemDTO orderItemDTO : orderItemTwoDTO) {
+				orderItemsTwoList.add(orderItemDTO);
+			}
 
-			Order order = Order.builder()
-					.invoice(invoice)
-					.user(userRepository.findById(1L).orElseThrow(() -> new RuntimeException("no user")))
-					.orderItems(orderItemsList)
-					.build();
+			File orderItemThreeFile = new File(classLoader.getResource("data/orderItemThree.json").getFile());
+			OrderItemDTO[] orderItemThreeDTO = objectMapper.readValue(orderItemThreeFile, OrderItemDTO[].class);
+			List<OrderItemDTO> orderItemsThreeList = new ArrayList<>();
+			for (OrderItemDTO orderItemDTO : orderItemThreeDTO) {
+				orderItemsThreeList.add(orderItemDTO);
+			}
 
-			orderRepository.save(order);
+			File orderItemFourFile = new File(classLoader.getResource("data/orderItemFour.json").getFile());
+			OrderItemDTO[] orderItemFourDTO = objectMapper.readValue(orderItemFourFile, OrderItemDTO[].class);
+			List<OrderItemDTO> orderItemsFourList = new ArrayList<>();
 
-			// User admin = new ApplicationUser("admin", passwordEncoder.encode("password"),
-			// Orders);
+			for (OrderItemDTO orderItemDTO : orderItemFourDTO) {
+				orderItemsFourList.add(orderItemDTO);
+			}
 
-			// userRepository.save(admin);
+			orderService.createOrder(created, orderItemsOneList);
+			orderService.createOrder(created, orderItemsTwoList);
+			orderService.createOrder(created, orderItemsThreeList);
+			orderService.createOrder(created, orderItemsFourList);
 
 		};
 	}

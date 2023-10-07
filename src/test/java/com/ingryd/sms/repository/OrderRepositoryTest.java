@@ -2,14 +2,21 @@ package com.ingryd.sms.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -18,26 +25,27 @@ import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.OrderItem;
 import com.ingryd.sms.entity.User;
 
-@DataJpaTest
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+@SpringBootTest
 public class OrderRepositoryTest {
 
     @Autowired
     OrderRepository orderRepository;
-    
-    
 
     @Autowired
     UserRepository userRepository;
 
     // @BeforeEach
     // void setUp() {
-    //     User user = User.builder()
-    //             .firstName("Efe")
-    //             .lastName("Okorobie")
-    //             .email("eokoro@gmail.com")
-    //             .build();
+    // User user = User.builder()
+    // .firstName("Efe")
+    // .lastName("Okorobie")
+    // .email("eokoro@gmail.com")
+    // .build();
 
-    //     userRepository.save(user);
+    // userRepository.save(user);
     // }
 
     @Test
@@ -45,7 +53,6 @@ public class OrderRepositoryTest {
     public void saveOrderWithInvoiceAndUserAndListOfOrderItems() {
 
         Invoice invoice = new Invoice();
-        
 
         List<OrderItem> orderItemsList = new ArrayList<>();
 
@@ -58,36 +65,43 @@ public class OrderRepositoryTest {
         orderRepository.save(order);
     }
 
+    // @Test
+    // public void findAllPagination() {
+
+    //     Pageable firstPageWithThreeRecords = PageRequest.of(0, 3);
+    //     Pageable secondPageWithTwoRecords = PageRequest.of(1, 2);
+
+    //     Page<Order> firstPage = orderRepository.findAll(firstPageWithThreeRecords);
+    //     Page<Order> secondPage = orderRepository.findAll(secondPageWithTwoRecords);
+
+    //     List<Order> twoOrders = secondPage.getContent();
+    //     List<Order> threeOrders = firstPage.getContent();
+
+    //     assertEquals(2, twoOrders.size());
+    //     assertEquals(3, threeOrders.size());
+    // }
+
     @Test
-    public void findAllPagination() {
-       
+    public void findByDatePagination() {
+        LocalDate currentDate = LocalDate.now();
+
+        // Define the desired date format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
+
+        // Format the date as a string
+        String formattedDate = currentDate.format(formatter);
 
         Pageable firstPageWithThreeRecords = PageRequest.of(0, 3);
-
         Pageable secondPageWithTwoRecords = PageRequest.of(1, 2);
 
-        // List<Order> twoOrders = orderRepository.findAll(secondPageWithTwoRecords).getContent();
+        Page<Order> firstPage = orderRepository.findByDateBetween(formattedDate, firstPageWithThreeRecords);
+        Page<Order> secondPage = orderRepository.findAll(secondPageWithTwoRecords);
 
-        // List<Order> threeOrders = orderRepository.findAll(firstPageWithThreeRecords).getContent();
+        List<Order> twoOrders = secondPage.getContent();
+        List<Order> threeOrders = firstPage.getContent();
 
-        long twoElements = orderRepository.findAll(secondPageWithTwoRecords).getTotalElements();
-        long threeElements = orderRepository.findAll(secondPageWithTwoRecords).getTotalElements();
-
-
-        int twoPages = orderRepository.findAll(firstPageWithThreeRecords).getTotalPages();       
-        int threePages = orderRepository.findAll(firstPageWithThreeRecords).getTotalPages();
-
-
-        assertEquals(twoElements, 1L);
-        assertEquals(threeElements, 1L);
-        assertEquals(twoPages, 1);
-        assertEquals(threePages, 1);
-       
-
-        // assertEquals(department.getDepartmentName(), "Mechanical Engineering");
-        // System.out.println("totalPages = " + totalPages);
-        // System.out.println("totalElements = " + totalElements);
-        // System.out.println("courses = " + courses);
-
+        assertEquals(2, twoOrders.size());
+        assertEquals(3, threeOrders.size());
     }
+
 }

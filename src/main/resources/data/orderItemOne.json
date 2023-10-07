@@ -1,0 +1,14 @@
+[
+    {
+        "product": {
+            "name": "Apple iPhone 11",
+            "description": "Smartphone with advanced camera features and iOS operating system.",
+            "price": 699.99,
+            "discount": 10,
+            "stock": 30,
+            "brand": "Apple",
+            "category": "Electronics"
+        },
+        "quantity": 2
+    }
+]

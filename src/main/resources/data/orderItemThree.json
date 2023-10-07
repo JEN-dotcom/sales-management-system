@@ -1,0 +1,38 @@
+[
+    {
+        "product": {
+            "name": "Canon EOS 5D Mark IV",
+            "description": "High-end digital camera favored by professional photographers.",
+            "price": 2499.99,
+            "discount": 10,
+            "stock": 10,
+            "brand": "Canon",
+            "category": "Cameras"
+        },
+        "quantity": 4
+    },
+    {
+        "product": {
+            "name": "Samsung 55-Inch 4K Smart TV",
+            "description": "Television with 4K Ultra HD resolution and smart TV capabilities.",
+            "price": 799.99,
+            "discount": 8,
+            "stock": 15,
+            "brand": "Samsung",
+            "category": "Electronics"
+        },
+        "quantity": 4
+    },
+    {
+        "product": {
+            "name": "Calvin Klein Eternity Perfume",
+            "description": "Fragrance known for its timeless and elegant scent.",
+            "price": 69.99,
+            "discount": 0,
+            "stock": 25,
+            "brand": "Calvin Klein",
+            "category": "Perfumes"
+        },
+        "quantity": 3
+    }
+]

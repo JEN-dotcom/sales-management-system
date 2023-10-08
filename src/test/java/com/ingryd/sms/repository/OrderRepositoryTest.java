@@ -1,32 +1,27 @@
 package com.ingryd.sms.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import com.ingryd.sms.entity.Invoice;
 import com.ingryd.sms.entity.Order;
-import com.ingryd.sms.entity.OrderItem;
-import com.ingryd.sms.entity.User;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @SpringBootTest
 public class OrderRepositoryTest {
@@ -37,29 +32,11 @@ public class OrderRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
-    // @BeforeEach
-    // void setUp() {
-    // User user = User.builder()
-    // .firstName("Efe")
-    // .lastName("Okorobie")
-    // .email("eokoro@gmail.com")
-    // .build();
-
-    // userRepository.save(user);
-    // }
-
     @Test
-    @DisplayName("Save order with all necessary fields")
-    public void saveOrderWithInvoiceAndUserAndListOfOrderItems() {
-
-        Invoice invoice = new Invoice();
-
-        List<OrderItem> orderItemsList = new ArrayList<>();
+    public void saveOrder() {
 
         Order order = Order.builder()
-                .invoice(invoice)
-                .user(userRepository.findById(1L).orElseThrow(() -> new RuntimeException("no user")))
-                .orderItems(orderItemsList)
+                .user(userRepository.findById(1L).orElseThrow())
                 .build();
 
         orderRepository.save(order);
@@ -67,7 +44,6 @@ public class OrderRepositoryTest {
 
     @Test
     public void findAllOrdersPaginated() {
-
         Pageable firstPageWithThreeRecords = PageRequest.of(0, 3);
         Pageable secondPageWithTwoRecords = PageRequest.of(1, 2);
 
@@ -82,26 +58,41 @@ public class OrderRepositoryTest {
     }
 
     @Test
-    public void findByDatePagination() {
-        LocalDate currentDate = LocalDate.now();
+    public void findOrdersByDatePaginated() throws ParseException {
+        LocalDate today = LocalDate.now();
 
-        // Define the desired date format
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyy");
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
 
-        // Format the date as a string
-        String formattedDate = currentDate.format(formatter);
+        Date startofDay = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
+        Date endofDay = Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
 
         Pageable firstPageWithThreeRecords = PageRequest.of(0, 3);
         Pageable secondPageWithTwoRecords = PageRequest.of(1, 2);
 
-        Page<Order> firstPage = orderRepository.findByDateBetween(formattedDate, firstPageWithThreeRecords);
-        Page<Order> secondPage = orderRepository.findAll(secondPageWithTwoRecords);
+        List<Order> threeOrders = orderRepository.findByDateBetween(startofDay, endofDay, firstPageWithThreeRecords);
+        assertEquals(3, threeOrders.size());
 
-        List<Order> twoOrders = secondPage.getContent();
-        List<Order> threeOrders = firstPage.getContent();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        Date startDate = dateFormat.parse("01-01-2050");
+        Date endDate = dateFormat.parse("01-01-2051");
+
+        List<Order> noOrders = orderRepository.findByDateBetween(startDate, endDate, secondPageWithTwoRecords);
+        assertEquals(0, noOrders.size());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        Date yesterday = calendar.getTime();
+
+        List<Order> twoOrders = orderRepository.findByDateBetween(yesterday, endofDay, secondPageWithTwoRecords);
 
         assertEquals(2, twoOrders.size());
-        assertEquals(3, threeOrders.size());
     }
 
+    @Test
+    @DisplayName("Find order by Id")
+    public void whenFindById_thenReturnOrder() {
+        Order found = orderRepository.findById(1L).get();
+        assertEquals(1L, found.getOrderId());
+    }
 }

@@ -2,7 +2,9 @@ package com.ingryd.sms.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +40,6 @@ public class OrderServiceImpl implements OrderService {
         Date date = new Date();
         Order order = new Order();
 
-
         order.setUser(user);
         order.setDate(date);
         order.setInvoice(invoiceService.createInvoice(date, order));
@@ -61,22 +62,16 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrdersByDatePaginated(String dateStringDDMMYYYY, int page, int pageSize)
             throws ParseException {
         Date specificDate = new SimpleDateFormat("dd-MM-yyyy").parse(dateStringDDMMYYYY);
+        LocalDateTime dateTime = specificDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(specificDate);
+        LocalDateTime startDate = dateTime.with(LocalTime.MIN);
+        LocalDateTime endDate = dateTime.with(LocalTime.MAX);
 
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        Date startOfDay = calendar.getTime();
-
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        Date endOfDay = calendar.getTime();
+        Date startOfDay = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
+        Date endofDay = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
 
         PageRequest pageRequest = PageRequest.of(page, pageSize);
-        return orderRepository.findByDateBetween(startOfDay, endOfDay, pageRequest);
+        return orderRepository.findByDateBetween(startOfDay, endofDay, pageRequest);
     }
 
     @Override
@@ -91,7 +86,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Order does not exist"));
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Order does not exist"));
 
         return order;
     }

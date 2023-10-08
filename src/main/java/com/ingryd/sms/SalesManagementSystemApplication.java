@@ -11,10 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ingryd.sms.entity.Invoice;
-import com.ingryd.sms.entity.Order;
-import com.ingryd.sms.entity.OrderItem;
-import com.ingryd.sms.entity.Product;
+
 import com.ingryd.sms.entity.User;
 import com.ingryd.sms.model.OrderItemDTO;
 import com.ingryd.sms.model.ProductDTO;

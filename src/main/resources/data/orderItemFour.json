@@ -1,26 +1,12 @@
 [
     {
-        "product": {
-            "name": "Sony PlayStation 4",
-            "description": "Gaming console with a wide range of popular games and entertainment features.",
-            "price": 299.99,
-            "discount": 15,
-            "stock": 20,
-            "brand": "Sony",
-            "category": "Gaming"
-        },
+        "name": "Sony PlayStation 4",
+        "brand": "Sony",
         "quantity": 3
     },
     {
-        "product": {
-            "name": "Nike Air Max 90",
-            "description": "Classic athletic sneakers known for their comfort and style.",
-            "price": 119.99,
-            "discount": 5,
-            "stock": 50,
-            "brand": "Nike",
-            "category": "Footwear"
-        },
+        "name": "Nike Air Max 90",
+        "brand": "Nike",
         "quantity": 4
     }
 ]

@@ -23,9 +23,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public List<OrderItem> createOrderItem(List<OrderItemDTO> orderItemDTOList, Order order) {
-
-       
-
         List<OrderItem> orderItemsList = new ArrayList<>();
 
         for (OrderItemDTO orderItemDTO : orderItemDTOList) {
@@ -38,7 +35,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 
             orderItemsList.add(orderItem);
         }
-
         return orderItemRepository.saveAll(orderItemsList);
     }
 }

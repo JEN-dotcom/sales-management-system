@@ -3,14 +3,12 @@ package com.ingryd.sms.service;
 import com.ingryd.sms.entity.Product;
 import com.ingryd.sms.model.ProductDTO;
 import com.ingryd.sms.repository.ProductRepository;
-import com.ingryd.sms.service.ProductService;
-import com.ingryd.sms.service.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
-// import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-// @RunWith(SpringRunner.class)
+
 @SpringBootTest(classes = ProductServiceImpl.class)
 public class ProductServiceTest {
 

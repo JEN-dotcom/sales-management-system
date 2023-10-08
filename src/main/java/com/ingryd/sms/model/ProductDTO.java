@@ -1,6 +1,5 @@
 package com.ingryd.sms.model;
 
-import com.ingryd.sms.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,50 +1,22 @@
 [
     {
-        "product": {
-            "name": "HP Envy x360 Laptop",
-        "description": "Convertible laptop with a touchscreen display for versatility.",
-        "price": 849.99,
-        "discount": 12,
-        "stock": 18,
+        "name": "HP Envy x360 Laptop",
         "brand": "HP",
-        "category": "Laptops"
-        },
         "quantity": 2
     },
     {
-        "product": {
-            "name": "Adidas UltraBoost Running Shoes",
-        "description": "High-performance running shoes designed for comfort and speed.",
-        "price": 129.99,
-        "discount": 5,
-        "stock": 35,
+        "name": "Adidas UltraBoost Running Shoes",
         "brand": "Adidas",
-        "category": "Footwear"
-        },
         "quantity": 1
     },
     {
-        "product": {
-            "name": "Amazon Echo Dot (3rd Gen)",
-            "description": "Smart speaker with Alexa voice control for home automation.",
-            "price": 39.99,
-            "discount": 20,
-            "stock": 40,
-            "brand": "Amazon",
-            "category": "Electronics"
-        },
+        "name": "Amazon Echo Dot (3rd Gen)",
+        "brand": "Amazon",
         "quantity": 1
     },
     {
-        "product": {
-            "name": "Fujifilm Instax Mini 9 Instant Camera",
-            "description": "Compact instant camera for capturing memories on the go.",
-            "price": 69.99,
-            "discount": 8,
-            "stock": 22,
-            "brand": "Fujifilm",
-            "category": "Cameras"
-        },
+        "name": "Fujifilm Instax Mini 9 Instant Camera",
+        "brand": "Fujifilm",
         "quantity": 2
     }
 ]

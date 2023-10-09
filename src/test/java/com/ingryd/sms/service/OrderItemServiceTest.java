@@ -2,7 +2,6 @@ package com.ingryd.sms.service;
 
 import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.OrderItem;
-import com.ingryd.sms.entity.Product;
 import com.ingryd.sms.model.OrderItemDTO;
 import com.ingryd.sms.repository.OrderItemRepository;
 import org.junit.Test;

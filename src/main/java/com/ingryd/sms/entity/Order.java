@@ -33,6 +33,6 @@ public class Order {
     @OneToOne(mappedBy = "order")
     private Invoice invoice;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 }

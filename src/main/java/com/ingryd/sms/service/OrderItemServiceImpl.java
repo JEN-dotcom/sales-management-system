@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.OrderItem;
+import com.ingryd.sms.error.ObjectNotFoundException;
 import com.ingryd.sms.model.OrderItemDTO;
 import com.ingryd.sms.repository.OrderItemRepository;
 import com.ingryd.sms.repository.ProductRepository;
@@ -18,7 +19,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Autowired
     OrderItemRepository orderItemRepository;
 
-     @Autowired
+    @Autowired
     ProductRepository productRepository;
 
     @Override
@@ -28,7 +29,8 @@ public class OrderItemServiceImpl implements OrderItemService {
         for (OrderItemDTO orderItemDTO : orderItemDTOList) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
-            orderItem.setProduct(productRepository.findByNameAndBrand(orderItemDTO.getProduct().getName(), orderItemDTO.getProduct().getBrand()).orElseThrow());
+            orderItem.setProduct(productRepository.findByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand())
+                    .orElseThrow(() -> new ObjectNotFoundException("Product not Found")));
             orderItem.setQuantity(orderItemDTO.getQuantity());
 
             // send mail service here

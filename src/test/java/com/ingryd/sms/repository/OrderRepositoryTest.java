@@ -34,6 +34,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void saveOrder() {
+            
 
         Order order = Order.builder()
                 .user(userRepository.findById(1L).orElseThrow())

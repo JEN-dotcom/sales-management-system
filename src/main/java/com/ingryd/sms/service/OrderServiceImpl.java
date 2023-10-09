@@ -45,9 +45,7 @@ public class OrderServiceImpl implements OrderService {
         order.setInvoice(invoiceService.createInvoice(date, order));
         order.setOrderItems(orderItemService.createOrderItem(orderItemDTOList, order));
 
-        orderRepository.save(order);
-
-        return order;
+       return orderRepository.save(order);
     }
 
     public List<Order> getAllOrdersPaginated(int pageNumber, int pageSize) {

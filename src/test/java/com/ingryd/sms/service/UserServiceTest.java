@@ -2,29 +2,25 @@ package com.ingryd.sms.service;
 
 import com.ingryd.sms.entity.User;
 import com.ingryd.sms.repository.UserRepository;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import java.util.List;
 import java.util.Optional;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-@ExtendWith(MockitoExtension.class)
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = UserServiceImpl.class)
-//@DataJpaTest
+// @ExtendWith(MockitoExtension.class)
+// @RunWith(SpringRunner.class)
+@SpringBootTest
+// @DataJpaTest
 public class UserServiceTest {
 
     @MockBean

@@ -2,7 +2,6 @@ package com.ingryd.sms.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,8 +24,7 @@ public class Product {
     @Column(name = "product_name")
     private String name;
 
-    @NotBlank
-    @NotEmpty
+
     @Column(name = "product_price")
     private double price;
 
@@ -34,21 +32,18 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @NotBlank
+
     @Column(name = "stock_qty")
     private int stock;
 
     @NotBlank
-    @NotEmpty
-    @Column(unique = true, name = "brand_name")
+    @Column(name = "brand_name")
     private String brand;
 
     @NotBlank
-    @NotEmpty
     @Column(name = "category")
     private String category;
 
     @Column(name = "discount_%")
     private int discount;
-
 }

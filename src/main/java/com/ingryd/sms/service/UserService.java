@@ -1,7 +1,6 @@
 package com.ingryd.sms.service;
 
 import com.ingryd.sms.entity.User;
-import com.ingryd.sms.model.UserDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

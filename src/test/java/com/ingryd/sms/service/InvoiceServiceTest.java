@@ -5,8 +5,7 @@ import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.OrderItem;
 import com.ingryd.sms.entity.User;
 import com.ingryd.sms.repository.InvoiceRepository;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,11 +15,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Date;
 import java.util.List;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = InvoiceServiceImpl.class)
 public class InvoiceServiceTest {
 

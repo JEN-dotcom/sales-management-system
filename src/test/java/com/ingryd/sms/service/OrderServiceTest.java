@@ -1,85 +1,124 @@
 package com.ingryd.sms.service;
 
-import com.ingryd.sms.entity.Invoice;
-import com.ingryd.sms.entity.Order;
-import com.ingryd.sms.entity.OrderItem;
-import com.ingryd.sms.entity.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ingryd.sms.SalesManagementSystemApplication;
+import com.ingryd.sms.entity.*;
 import com.ingryd.sms.model.OrderItemDTO;
-import com.ingryd.sms.repository.OrderRepository;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.ingryd.sms.repository.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = OrderServiceImpl.class)
+
+@SpringBootTest(classes = SalesManagementSystemApplication.class)
 public class OrderServiceTest {
 
-    @MockBean
+    @Mock
     private OrderRepository orderRepository;
 
-    @MockBean
+    @Mock
     private OrderItemService orderItemService;
 
-    @Autowired
-    private InvoiceService invoiceService;
     @Mock
+    private ProductRepository productRepository;
+
+    @Mock
+    private InvoiceService invoiceService;
+
+    @InjectMocks
     private OrderServiceImpl orderService;
 
-//    @Test
-//    public void testCreateOrder() {
-//        User user = new User(1L, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
-//
-//        List<OrderItemDTO> orderItemDTOList = new ArrayList<>();
-//        orderItemDTOList.add(new OrderItemDTO(/* initialize DTO */));
-//
-//        Order expectedOrder = new Order(/* initialize order */);
-//
-//        when(invoiceService.createInvoice(any(Date.class), any(Order.class))).thenReturn(/* initialize invoice */);
-//
-//        when(orderItemService.createOrderItem(anyList(), any(Order.class))).thenReturn(/* initialize order items */);
-//
-//        Order createdOrder = orderService.createOrder(user, orderItemDTOList);
-//
-//        verify(orderRepository, times(1)).save(any(Order.class));
-//
-//        assertNotNull(createdOrder);
-//        assertEquals(user, createdOrder.getUser());
-//    }
-//
-//
-//    @Test
-//    public void testCreateOrder() {
-//        User user = new User(1L, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
-//        List<OrderItemDTO> orderItemDTOList = new ArrayList<>();
-//
-//        Order createdOrder = new Order();
-//
-//        when(invoiceService.createInvoice(any(Date.class), any(Order.class))).thenReturn();
-//        when(orderItemService.createOrderItem(anyList(), any(Order.class))).thenReturn();
-//        when(orderRepository.save(any(Order.class))).thenReturn(createdOrder);
-//
-//        Order resultOrder = orderService.createOrder(user, orderItemDTOList);
-//
-//        verify(invoiceService, times(1)).createInvoice(any(Date.class), any(Order.class));
-//        verify(orderItemService, times(1)).createOrderItem(anyList(), any(Order.class));
-//        verify(orderRepository, times(1)).save(any(Order.class));
-//
-//        assertNotNull(resultOrder);
-//        assertEquals(user, resultOrder.getUser());
-//    }
+    @Autowired
+    private UserRepository userRepository;
+
+
+
+    @Test
+    public void testCreateOrder() throws IOException {
+
+        Order createdOrder = new Order();
+        Invoice invoice = new Invoice();
+        invoice.setOrder(createdOrder);
+        invoice.setInvoiceDate(new Date());
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        File orderItemOneFile = new File(Objects.requireNonNull(classLoader.getResource("data/orderItemOne.json")).getFile());
+        OrderItemDTO[] orderItemOneDTO = objectMapper.readValue(orderItemOneFile, OrderItemDTO[].class);
+        List<OrderItemDTO> orderItemsOneDTOList = new ArrayList<>(Arrays.asList(orderItemOneDTO));
+
+        System.out.println(orderItemsOneDTOList);
+        List<OrderItem> orderItemsList = new ArrayList<>();
+
+//        when(productRepository.findByNameAndBrand(any(String.class), any(String.class))).thenReturn((new Product(1L,"Rice", 350000.00, "naija", 100, "Aba", "local", 25)));
+
+        for (OrderItemDTO orderItemDTO : orderItemsOneDTOList) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(createdOrder);
+            orderItem.setProduct(productRepository.findByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand()));
+            orderItem.setQuantity(orderItemDTO.getQuantity());
+
+            orderItemsList.add(orderItem);
+
+        }
+        createdOrder.setOrderId(1L);
+        createdOrder.setOrderItems(orderItemsList);
+        createdOrder.setInvoice(invoice);
+        createdOrder.setUser(new User(1L, "Efe", "Okorobie", "eokoro@gmail.com", "55757577573"));
+        createdOrder.setDate(new Date());
+
+        when(invoiceService.createInvoice(any(Date.class), any(Order.class))).thenReturn(invoice);
+        when(orderItemService.createOrderItem(anyList(), any(Order.class))).thenReturn(orderItemsList);
+        when(orderRepository.save(any(Order.class))).thenReturn(createdOrder);
+
+        Order resultOrder = orderService.createOrder(userRepository.findById(1L).get(), orderItemsOneDTOList);
+
+        assertNotNull(resultOrder);
+        assertEquals(userRepository.findById(1L).get(), resultOrder.getUser());
+    }
+
+
+
+
+    @Test
+    public void testGetAllOrdersPaginated() {
+        int pageNumber = 0;
+        int pageSize = 10;
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        List<Order> sampleOrders = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            sampleOrders.add(new Order());
+        }
+        Page<Order> samplePage = new PageImpl<>(sampleOrders, pageable, sampleOrders.size());
+//        when(samplePage.getContent()).thenReturn(sampleOrders);
+
+        when(orderRepository.findAll(any(Pageable.class))).thenReturn(samplePage);
+
+        List<Order> orders = orderService.getAllOrdersPaginated(pageNumber, pageSize);
+
+        assertNotNull(orders);
+        assertEquals(sampleOrders.size(), orders.size());
+    }
+
 
 }

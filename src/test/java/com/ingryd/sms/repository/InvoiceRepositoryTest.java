@@ -32,9 +32,7 @@ public class InvoiceRepositoryTest {
         order.setInvoice(invoice);
         invoice.setOrder(order);
 
-        invoiceRepository.save(invoice);
-
-       
+        invoiceRepository.save(invoice);       
     }
 
 }

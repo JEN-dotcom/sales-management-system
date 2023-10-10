@@ -18,4 +18,5 @@ public interface OrderService {
 
     public List<Order> getOrdersByDatePaginated(String startDateStringDDMMYYYY, String endDateStringDDMMYYYY, int page, int pageSize) throws ParseException;
 
+   // delete orders beyound a certain date
 }

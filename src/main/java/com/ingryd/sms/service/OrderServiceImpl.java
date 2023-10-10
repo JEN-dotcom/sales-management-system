@@ -68,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
         Date startOfDay = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
         Date endofDay = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
 
-        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        Pageable pageRequest = PageRequest.of(page, pageSize);
         return orderRepository.findByDateBetween(startOfDay, endofDay, pageRequest);
     }
 

@@ -110,7 +110,6 @@ public class OrderServiceTest {
             sampleOrders.add(new Order());
         }
         Page<Order> samplePage = new PageImpl<>(sampleOrders, pageable, sampleOrders.size());
-//        when(samplePage.getContent()).thenReturn(sampleOrders);
 
         when(orderRepository.findAll(any(Pageable.class))).thenReturn(samplePage);
 
@@ -120,5 +119,18 @@ public class OrderServiceTest {
         assertEquals(sampleOrders.size(), orders.size());
     }
 
+    @Test
+    public void testGetOrderById(){
+        long orderId = 1L;
+        Order order = new Order();
+        order.setOrderId(orderId);
+
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
+
+        Order result = orderService.getOrderById(orderId);
+
+        assertNotNull(result);
+        assertEquals(orderId, result.getOrderId());
+    }
 
 }

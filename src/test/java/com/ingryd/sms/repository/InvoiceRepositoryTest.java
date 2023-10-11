@@ -28,11 +28,10 @@ public class InvoiceRepositoryTest {
         order.setUser(userRepository.findById(1L).orElseThrow());
 
         Invoice invoice = new Invoice();
-        invoice.setInvoiceDate(date);
+        invoice.setDate(date);
         order.setInvoice(invoice);
         invoice.setOrder(order);
 
         invoiceRepository.save(invoice);       
     }
-
 }

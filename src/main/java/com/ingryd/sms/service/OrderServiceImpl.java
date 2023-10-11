@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.User;
@@ -42,10 +45,10 @@ public class OrderServiceImpl implements OrderService {
 
         order.setUser(user);
         order.setDate(date);
-        order.setInvoice(invoiceService.createInvoice(date, order));
         order.setOrderItems(orderItemService.createOrderItem(orderItemDTOList, order));
+        order.setInvoice(invoiceService.createInvoice(date, order));
 
-       return orderRepository.save(order);
+        return orderRepository.save(order);
     }
 
     public List<Order> getAllOrdersPaginated(int pageNumber, int pageSize) {
@@ -60,16 +63,13 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> getOrdersByDatePaginated(String dateStringDDMMYYYY, int page, int pageSize)
             throws ParseException {
         Date specificDate = new SimpleDateFormat("dd-MM-yyyy").parse(dateStringDDMMYYYY);
+
         LocalDateTime dateTime = specificDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-
-        LocalDateTime startDate = dateTime.with(LocalTime.MIN);
         LocalDateTime endDate = dateTime.with(LocalTime.MAX);
-
-        Date startOfDay = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
         Date endofDay = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
 
         Pageable pageRequest = PageRequest.of(page, pageSize);
-        return orderRepository.findByDateBetween(startOfDay, endofDay, pageRequest);
+        return orderRepository.findByDateBetween(specificDate, endofDay, pageRequest);
     }
 
     @Override
@@ -77,6 +77,10 @@ public class OrderServiceImpl implements OrderService {
             int pageSize) throws ParseException {
         Date startOfDay = new SimpleDateFormat("dd-MM-yyyy").parse(startDateStringDDMMYYYY);
         Date endOfDay = new SimpleDateFormat("dd-MM-yyyy").parse(endDateStringDDMMYYYY);
+
+        LocalDateTime endOfDate = endOfDay.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                .with(LocalTime.MAX);
+        endOfDay = Date.from(endOfDate.atZone(ZoneId.systemDefault()).toInstant());
 
         PageRequest pageRequest = PageRequest.of(page, pageSize);
         return orderRepository.findByDateBetween(startOfDay, endOfDay, pageRequest);
@@ -88,5 +92,17 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new ObjectNotFoundException("Order does not exist"));
 
         return order;
+    }
+
+    @Override
+    public ResponseEntity<String> deleteOrdersBeforeDate(String dateStringDDMMYYYY) throws ParseException {
+        Date cutoffDate = new SimpleDateFormat("dd-MM-yyyy").parse(dateStringDDMMYYYY);
+        try {
+            orderRepository.deleteByDateBefore(cutoffDate);
+            return ResponseEntity.ok("All entries before " + dateStringDDMMYYYY + " successfully deleted.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while deleting entries.");
+        }
     }
 }

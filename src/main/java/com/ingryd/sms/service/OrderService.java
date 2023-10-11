@@ -3,6 +3,8 @@ package com.ingryd.sms.service;
 import java.text.ParseException;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.User;
 import com.ingryd.sms.model.OrderItemDTO;
@@ -18,5 +20,5 @@ public interface OrderService {
 
     public List<Order> getOrdersByDatePaginated(String startDateStringDDMMYYYY, String endDateStringDDMMYYYY, int page, int pageSize) throws ParseException;
 
-   // delete orders beyound a certain date
+   public ResponseEntity<String> deleteOrdersBeforeDate(String dateStringDDMMYYYY) throws ParseException;
 }

@@ -10,12 +10,16 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,8 +36,11 @@ public class OrderRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private TestEntityManager testEntityManager;
+
     @Test
-    public void saveOrder() {         
+    public void saveOrder() {
 
         Order order = Order.builder()
                 .user(userRepository.findById(1L).orElseThrow())
@@ -94,5 +101,32 @@ public class OrderRepositoryTest {
     public void whenFindById_thenReturnOrder() {
         Order found = orderRepository.findById(1L).get();
         assertEquals(1L, found.getOrderId());
+    }
+
+    @Test
+    public void testDeleteByDateBefore() throws Exception {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        Date cutoffDate = sdf.parse("01-01-2023 00:00:00");
+        Date beforeCutoff = sdf.parse("31-12-2022 10:00:00");
+        Date afterCutoff = sdf.parse("01-01-2023 10:00:00");
+
+        Order order1 = createTestOrder(beforeCutoff);
+        Order order2 = createTestOrder(afterCutoff);
+
+        testEntityManager.persist(order1);
+        testEntityManager.persist(order2);
+
+        orderRepository.deleteByDateBefore(cutoffDate);
+
+        Optional<Order> deletedOrder = orderRepository.findById(order1.getOrderId());
+        assertTrue(deletedOrder.isEmpty());
+    }
+
+    private Order createTestOrder(Date date) {
+        Order order = new Order();
+        order.setUser(userRepository.findById(1L).orElseThrow());
+        order.setDate(date);
+        return order;
     }
 }

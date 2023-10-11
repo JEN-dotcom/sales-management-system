@@ -11,11 +11,12 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findById(Long id);
+
     List<Product> findByCategory(String category);
+
     List<Product> findByName(String name);
+
     void deleteById(Long id);
 
-    @Query("SELECT p FROM Product p WHERE p.name = :value1 AND p.brand = :value2")
     Optional<Product> findByNameAndBrand(String value1, String value2);
-
 }

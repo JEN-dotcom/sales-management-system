@@ -1,11 +1,12 @@
 package com.ingryd.sms.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Setter;
 
 import java.util.Date;
 
-@Setter
+@Data
 @Entity
 @Table(name = "invoices")
 public class Invoice {
@@ -19,6 +20,12 @@ public class Invoice {
     private Order order;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date invoiceDate;
+    @Column(nullable = false, name = "invoice_date")
+    private Date date;
+
+    @Column(name = "order_total")
+    private Double orderTotal;
+
+
+    private String invoice;
 }

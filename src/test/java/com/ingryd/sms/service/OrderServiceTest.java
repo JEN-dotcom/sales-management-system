@@ -130,7 +130,9 @@ public class OrderServiceTest {
         Order result = orderService.getOrderById(orderId);
 
         assertNotNull(result);
-        assertEquals(orderId, result.getOrderId());
+        assertEquals(orderId, result.getOrderId().longValue());
     }
+
+
 
 }

@@ -55,12 +55,14 @@ public class AdminController {
 
     @DeleteMapping("products/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-        boolean deleted = productService.deleteProduct(id);
-        if (deleted){
-            return ResponseEntity.ok("Product successfully deleted");
-        }
-        return ResponseEntity.notFound().build();
+        productService.deleteProduct(id);
+        return ResponseEntity.ok("Product successfully deleted");
+    }
 
+    @PostMapping("/user")
+    public ResponseEntity<User> createUser(@RequestBody @Valid User user){
+        User createdUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @GetMapping("/users")
@@ -82,11 +84,21 @@ public class AdminController {
     }
 
     @GetMapping("/user/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email){
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
-    @PostMapping("/user")
-    public ResponseEntity<User> createUser(@RequestBody @Valid User user){
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    @GetMapping("/user/{firstName}")
+    public ResponseEntity<User> getUserByFirstName(@PathVariable String firstName){
+        User user = userService.getUserByFirstName(firstName);
+        if (user != null){
+            return  ResponseEntity.ok(user);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/user/{id}")
@@ -96,5 +108,11 @@ public class AdminController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.ok("user successfully deleted");
     }
 }

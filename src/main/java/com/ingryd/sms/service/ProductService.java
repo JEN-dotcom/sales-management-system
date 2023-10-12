@@ -2,6 +2,7 @@ package com.ingryd.sms.service;
 
 import com.ingryd.sms.entity.Product;
 import com.ingryd.sms.model.ProductDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface ProductService {
     public List<Product> getProductByName(String name);
     public Product createProduct(ProductDTO productDTO);
     public Product updateProduct(Long id, ProductDTO productDTO);
-    public boolean deleteProduct(Long id);
+    public ResponseEntity<String> deleteProduct(Long id);
 }

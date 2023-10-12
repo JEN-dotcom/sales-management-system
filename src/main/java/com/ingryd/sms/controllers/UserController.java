@@ -82,6 +82,15 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/products/{category}")
+    public ResponseEntity<List<Product>> getProductByCategory(String category){
+        List<Product> product = productService.getProductByCategory(category);
+        if (product != null){
+            return ResponseEntity.ok(product);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @PostMapping("/orders")
     public ResponseEntity<Order> createOrder(@Valid User user, @RequestBody List<OrderItemDTO> orderItemDTOList){
 

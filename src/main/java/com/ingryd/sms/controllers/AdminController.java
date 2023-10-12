@@ -1,6 +1,7 @@
 package com.ingryd.sms.controllers;
 
 import com.ingryd.sms.entity.Product;
+import com.ingryd.sms.entity.User;
 import com.ingryd.sms.model.ProductDTO;
 import com.ingryd.sms.repository.OrderRepository;
 import com.ingryd.sms.repository.ProductRepository;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
@@ -57,5 +60,14 @@ public class AdminController {
         }
         return ResponseEntity.notFound().build();
 
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers(){
+        List<User> users = userService.getAllUsers();
+        if (!users.isEmpty()){
+            return ResponseEntity.ok(users);
+        }
+        return ResponseEntity.noContent().build();
     }
 }

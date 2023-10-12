@@ -9,6 +9,7 @@ import com.ingryd.sms.repository.UserRepository;
 import com.ingryd.sms.service.OrderServiceImpl;
 import com.ingryd.sms.service.ProductServiceImpl;
 import com.ingryd.sms.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,5 +70,29 @@ public class AdminController {
             return ResponseEntity.ok(users);
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user != null){
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<User> createUser(@RequestBody @Valid User user){
+        User createdUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+
+    @PutMapping("/user/{id}")
+    public ResponseEntity<User> updateUser(Long id, User user){
+        User updatedUser = userService.updateUser(id, user);
+        if (updatedUser == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedUser);
     }
 }

@@ -5,11 +5,11 @@ import com.ingryd.sms.SalesManagementSystemApplication;
 import com.ingryd.sms.entity.*;
 import com.ingryd.sms.model.OrderItemDTO;
 import com.ingryd.sms.repository.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +20,11 @@ import org.springframework.data.domain.Pageable;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,9 +101,6 @@ public class OrderServiceTest {
         assertEquals(userRepository.findById(1L).get(), resultOrder.getUser());
     }
 
-
-
-
     @Test
     public void testGetAllOrdersPaginated() {
         int pageNumber = 0;
@@ -133,6 +135,62 @@ public class OrderServiceTest {
         assertEquals(orderId, result.getOrderId().longValue());
     }
 
+    @Test
+    public void testGetOrdersByDatePaginated() throws ParseException {
+        String dateStringDDMMYYYY = "11-10-2023";
+        Date specificDate = new SimpleDateFormat("dd-MM-yyyy").parse(dateStringDDMMYYYY);
+        LocalDateTime localDateTime = specificDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
+        LocalDateTime startDate = localDateTime.with(LocalTime.MIN);
+        LocalDateTime endDate = localDateTime.with(LocalTime.MAX);
+
+        Date startOfDay = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
+        Date endOfDay = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
+
+        int page = 0;
+        int pageSize = 10;
+
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+
+        List<Order> orders = new ArrayList<>();
+
+//        when(orderRepository.findByDateBetween(startOfDay, endOfDay, pageRequest)).thenReturn(
+//                new PageImpl<>(orders, pageRequest, orders.size()));
+
+        when(orderRepository.findByDateBetween(startOfDay, endOfDay, pageRequest)).thenReturn(
+                new ArrayList<>());
+        List<Order> result = orderService.getOrdersByDatePaginated(dateStringDDMMYYYY, page, pageSize);
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+    }
+
+
+//    @Test
+//    public void testGetOrdersByDatePaginated() throws ParseException {
+//        String startDateStringDDMMYYYY = "11-10-2023";
+//        String endDateStringDDMMYYYY = "12-10-2023";
+//
+//        Date startOfDay = new SimpleDateFormat("dd-MM-yyyy").parse(startDateStringDDMMYYYY);
+//        Date endOfDay = new SimpleDateFormat("dd-MM-yyyy").parse(endDateStringDDMMYYYY);
+//
+//        int page = 0;
+//        int pageSize = 10;
+//
+//        PageRequest pageRequest = PageRequest.of(page, pageSize);
+//
+//        List<Order> orders = new ArrayList<>();
+//        Date orderDateWithinRange = new SimpleDateFormat("dd-MM-yyyy").parse("11-10-2023");
+//        Order order1 = new Order();
+//        order1.setDate(orderDateWithinRange);
+//        orders.add(order1);
+//
+//        when(orderRepository.findByDateBetween(startOfDay, endOfDay, pageRequest))
+//                .thenReturn(new PageImpl<>(orders, pageRequest, orders.size()));
+//
+//        List<Order> result = orderService.getOrdersByDatePaginated(startDateStringDDMMYYYY, endDateStringDDMMYYYY, page, pageSize);
+//
+//        assertNotNull(result);
+//        assertTrue(result.contains(order1));
+//    }
 
 }

@@ -81,6 +81,8 @@ public class AdminController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/user/{email}")
+
     @PostMapping("/user")
     public ResponseEntity<User> createUser(@RequestBody @Valid User user){
         User createdUser = userService.createUser(user);

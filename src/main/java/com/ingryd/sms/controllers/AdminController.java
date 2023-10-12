@@ -1,5 +1,6 @@
 package com.ingryd.sms.controllers;
 
+import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.Product;
 import com.ingryd.sms.entity.User;
 import com.ingryd.sms.model.ProductDTO;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -110,9 +112,27 @@ public class AdminController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @GetMapping("/user/{id}")
+    @DeleteMapping("/user/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return ResponseEntity.ok("user successfully deleted");
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<Order>> getAllOrdersPaginated(@PathVariable int pageNumber,@PathVariable int pageSize){
+        List<Order> orders = orderService.getAllOrdersPaginated(pageNumber, pageSize);
+        return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("/orders/{id}")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id){
+        Order order = orderService.getOrderById(id);
+        return ResponseEntity.ok(order);
+    }
+
+    @GetMapping("/orders/{date}")
+    public ResponseEntity<List<Order>> getOrdersByDatePaginated(@PathVariable String dateStringDDMMYYYY, @RequestParam int page, @RequestParam int pageSize) throws ParseException {
+        List<Order> orderDate = orderService.getOrdersByDatePaginated(dateStringDDMMYYYY, page, pageSize);
+        return ResponseEntity.ok(orderDate);
     }
 }

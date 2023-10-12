@@ -98,6 +98,10 @@ The Application Layer in the Sales Management System (SMS) comprises controllers
   - Description: Retrieve details of a specific order.
   - Functionality: Fetches and returns detailed information about a specific order based on its unique identifier.
 
+- **GET /orders/{date}:**
+  - Description: Retrieve details of a specific order.
+  - Functionality: Fetches and returns detailed information about a specific order based on its range of dates.
+
 - **PUT /orders/{id}:**
   - Description: Update an existing order.
   - Functionality: Updates the attributes of an existing order based on its unique identifier and returns the updated order information.

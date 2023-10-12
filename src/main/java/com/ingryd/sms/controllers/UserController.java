@@ -47,39 +47,39 @@ public class UserController {
 
         if (!products.isEmpty()) {
             return ResponseEntity.ok(products);
-        } else {
-            return ResponseEntity.noContent().build();
         }
+            return ResponseEntity.noContent().build();
     }
 
 //    @GetMapping("/products/{id}")
 //    public Product getProductById(@PathVariable Long id) {
 //        return productService.getProductById(id);
 //    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
 
         if (product != null) {
             return ResponseEntity.ok(product);
-        } else {
-            return ResponseEntity.notFound().build();
         }
+            return ResponseEntity.notFound().build();
+
     }
 
 //    @GetMapping("/products/{name}")
 //    public List<Product> getProductByName(@PathVariable String name) {
 //        return productService.getProductByName(name);
 //    }
+
     @GetMapping("/{name}")
     public ResponseEntity<List<Product>> getProductByName(@PathVariable String name) {
         List<Product> product = productService.getProductByName(name);
 
         if (product != null) {
             return ResponseEntity.ok(product);
-        } else {
-            return ResponseEntity.notFound().build();
         }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/orders")

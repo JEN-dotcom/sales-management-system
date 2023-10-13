@@ -1,6 +1,7 @@
 package com.ingryd.sms.service;
 
 import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -44,13 +45,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         Date specificDate = new SimpleDateFormat("dd-MM-yyyy").parse(dateStringDDMMYYYY);
         LocalDateTime dateTime = specificDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 
-        LocalDateTime startDate = dateTime.with(LocalTime.MIN);
         LocalDateTime endDate = dateTime.with(LocalTime.MAX);
-
-        Date startOfDay = Date.from(startDate.atZone(ZoneId.systemDefault()).toInstant());
         Date endofDay = Date.from(endDate.atZone(ZoneId.systemDefault()).toInstant());
 
-        return invoiceRepository.findByDateBetween(startOfDay, endofDay);
+        return invoiceRepository.findByDateBetween(specificDate, endofDay);
     }
 
     @Override
@@ -74,6 +72,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoice;
     }
 
+    @Override
     public double getGrandTotalOfInvoices(List<Invoice> invoiceList) {
         double total = invoiceList.stream()
                 .mapToDouble(item -> item.getOrderTotal())
@@ -81,15 +80,15 @@ public class InvoiceServiceImpl implements InvoiceService {
         return total;
     }
 
+    @Override
     public String getGrandTotalOfInvoices(List<Invoice> invoiceList, double grandTotal) {
         StringBuilder result = new StringBuilder();
 
         for (Invoice invoice : invoiceList) {
             result.append(invoice.getInvoice());
-
         }
-        result.append("Grand Total: ").append(grandTotal);
 
+        result.append("Grand Total: ").append(grandTotal);
         return result.toString();
     }
 
@@ -105,28 +104,14 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
-    private double invoiceTotal(List<OrderItem> orderItems) {
-        double orderTotal = orderItems.stream()
-                .mapToDouble(item -> calculateItemPrice(item))
-                .sum();
-        return orderTotal;
-    }
-
-    private double calculateItemPrice(OrderItem item) {
-        double price = item.getProduct().getPrice();
-        double discountPercent = item.getProduct().getDiscount();
-        int quantity = item.getQuantity();
-
-        double discountedPrice = price * (1.0 - (discountPercent / 100.0));
-        return discountedPrice * quantity;
-    }
-
+    @Override
     public String invoiceTotal(Order order, double orderTotal) {
         StringBuilder result = new StringBuilder();
 
         List<OrderItem> orderItems = order.getOrderItems();
 
         result.append("Order ID: ").append(order.getOrderId()).append("\n");
+        result.append("Order Date: ").append(order.getDate()).append("\n");
         result.append("Items:\n");
         for (OrderItem item : orderItems) {
             result.append("- Product: ").append(item.getProduct().getName()).append("\n");
@@ -138,6 +123,24 @@ public class InvoiceServiceImpl implements InvoiceService {
         result.append("Order Total: ").append(orderTotal).append("\n\n");
 
         return result.toString();
+    }
+
+    private double calculateItemPrice(OrderItem item) {
+        double price = item.getProduct().getPrice();
+        double discountPercent = item.getProduct().getDiscount();
+        int quantity = item.getQuantity();
+        double discountedPrice = price * (1.0 - (discountPercent / 100.0));
+
+        DecimalFormat df = new DecimalFormat("0.00"); // Format for two decimal places
+        String formattedValue = df.format(discountedPrice * quantity);
+        return Double.parseDouble(formattedValue); // Convert it back to double
+    }
+
+    private double invoiceTotal(List<OrderItem> orderItems) {
+        double orderTotal = orderItems.stream()
+                .mapToDouble(item -> calculateItemPrice(item))
+                .sum();
+        return orderTotal;
     }
 
 }

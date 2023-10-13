@@ -103,8 +103,5 @@ public class UserServiceTest {
         userService.deleteUser(userId);
         verify(userRepository, times(1)).deleteById(userId);
     }
-
-
-
 }
 

@@ -19,5 +19,11 @@ public interface InvoiceService {
 
     public List<Invoice> getInvoicesByDate(String startDateStringDDMMYYYY, String endDateStringDDMMYYYY) throws ParseException;
 
+    public double getGrandTotalOfInvoices(List<Invoice> invoiceList);
+   
+    public String getGrandTotalOfInvoices(List<Invoice> invoiceList, double grandTotal);
+    
+    public String invoiceTotal(Order order, double orderTotal);
+
     public ResponseEntity<String> deleteInvoicesBeforeDate(String dateStringDDMMYYYY) throws ParseException;
 }

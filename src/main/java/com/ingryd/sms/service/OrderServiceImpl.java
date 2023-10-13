@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.User;
@@ -45,8 +44,8 @@ public class OrderServiceImpl implements OrderService {
 
         order.setUser(user);
         order.setDate(date);
-        order.setOrderItems(orderItemService.createOrderItem(orderItemDTOList, order));
-        order.setInvoice(invoiceService.createInvoice(date, order));
+        order.setOrderItems(orderItemService.createOrderItem(orderItemDTOList, orderRepository.save(order)));
+        order.setInvoice(invoiceService.createInvoice(date,  orderRepository.save(order)));
 
         return orderRepository.save(order);
     }

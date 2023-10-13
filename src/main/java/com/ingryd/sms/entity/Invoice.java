@@ -2,7 +2,6 @@ package com.ingryd.sms.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Setter;
 
 import java.util.Date;
 
@@ -16,7 +15,7 @@ public class Invoice {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "order_id", referencedColumnName = "order_id")
+    @JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false)
     private Order order;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -26,6 +25,6 @@ public class Invoice {
     @Column(name = "order_total")
     private Double orderTotal;
 
-
+    @Column(columnDefinition = "Text", length = 1000000)
     private String invoice;
 }

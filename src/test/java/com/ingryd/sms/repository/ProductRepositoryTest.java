@@ -53,13 +53,15 @@ public class ProductRepositoryTest {
 
     @Test
     public void findById() {
-
         for (ProductDTO productDTO : productDTOs) {
             entityManager.persist(createProduct(productDTO));
         }
 
-        Product found = productRepository.findById(1L).get();
-        assertEquals(1L, found.getId());
+        List<Product> found = productRepository.findAll();
+        Long id = found.get(0).getId();        
+        Product product = productRepository.findById(id).get();
+       
+        assertEquals(id, product.getId());
     }
 
     @Test
@@ -101,7 +103,20 @@ public class ProductRepositoryTest {
         productRepository.deleteById(id);
 
         Optional<Product> deletedProduct = productRepository.findById(id);
-        assertTrue(deletedProduct.isEmpty());        
+        assertTrue(deletedProduct.isEmpty());
+    }
+
+    @Test
+    public void findAll() {
+        int productCount = 0;
+        for (ProductDTO productDTO : productDTOs) {
+            productCount++;
+            entityManager.persist(createProduct(productDTO));
+        }
+
+        List<Product> found = productRepository.findAll();
+
+        assertTrue(found.size() == productCount);
     }
 
     public Product createProduct(ProductDTO productDTO) {

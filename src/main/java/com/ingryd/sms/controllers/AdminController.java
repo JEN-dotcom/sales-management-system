@@ -104,7 +104,7 @@ public class AdminController {
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<User> updateUser(Long id, User user){
+    public ResponseEntity<User> updateUser(@PathVariable Long id,@RequestBody User user){
         User updatedUser = userService.updateUser(id, user);
         if (updatedUser == null){
             return ResponseEntity.notFound().build();

@@ -1,8 +1,11 @@
 package com.ingryd.sms.service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.ingryd.sms.entity.Invoice;
@@ -21,5 +24,24 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setInvoiceDate(date);
 
         return invoiceRepository.save(invoice);
-    };
+    }
+
+    @Override
+    public List<Invoice> getAllInvoices() {
+        return invoiceRepository.findAll();
+    }
+
+    @Override
+    public Optional<Invoice> getInvoiceById(Long id) {
+        return invoiceRepository.findById(id);
+    }
+
+    @Override
+    public ResponseEntity<String> deleteInvoice(Long id) {
+        if (invoiceRepository.existsById(id)){
+            invoiceRepository.deleteById(id);
+            return ResponseEntity.ok("invoice successfully deleted");
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

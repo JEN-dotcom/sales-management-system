@@ -57,7 +57,7 @@ public class OrderServiceTest {
         Order createdOrder = new Order();
         Invoice invoice = new Invoice();
         invoice.setOrder(createdOrder);
-        invoice.setInvoiceDate(new Date());
+        invoice.setDate(new Date());
 
         ClassLoader classLoader = getClass().getClassLoader();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -74,7 +74,7 @@ public class OrderServiceTest {
         for (OrderItemDTO orderItemDTO : orderItemsOneDTOList) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(createdOrder);
-            orderItem.setProduct(productRepository.findByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand()));
+            orderItem.setProduct(productRepository.findByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand()).get());
             orderItem.setQuantity(orderItemDTO.getQuantity());
 
             orderItemsList.add(orderItem);

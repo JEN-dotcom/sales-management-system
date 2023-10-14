@@ -16,6 +16,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     void deleteById(Long id);
 
     @Query("SELECT p FROM Product p WHERE p.name = :value1 AND p.brand = :value2")
-    Optional<Product> findByNameAndBrand(String value1, String value2);
+    Product findByNameAndBrand(String value1, String value2);
 
 }

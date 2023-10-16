@@ -78,22 +78,18 @@ public class InvoiceServiceTest {
 
      @Test
     public void getInvoicesByDate() throws ParseException {
-        // Create sample data
+  
         String dateStringDDMMYYYY = "01-01-2023";
 
-        // Create a list of invoices to be returned by the repository
+       
         List<Invoice> expectedInvoices = new ArrayList<>();
 
-        // Mock the repository to return the expected invoices
         when(invoiceRepository.findByDateBetween(any(), any())).thenReturn(expectedInvoices);
 
-        // Call the getInvoicesByDate method
         List<Invoice> result = invoiceService.getInvoicesByDate(dateStringDDMMYYYY);
 
-        // Verify the result
         assertEquals(expectedInvoices, result);
 
-        // Verify that the repository method was called with the correct parameters
         verify(invoiceRepository, times(1)).findByDateBetween(any(), any());
     }
 }

@@ -23,7 +23,7 @@ public interface InvoiceService {
    
     public String getGrandTotalOfInvoices(List<Invoice> invoiceList, double grandTotal);
     
-    public String invoiceTotal(Order order, double orderTotal);
+   
 
     public ResponseEntity<String> deleteInvoicesBeforeDate(String dateStringDDMMYYYY) throws ParseException;
 }

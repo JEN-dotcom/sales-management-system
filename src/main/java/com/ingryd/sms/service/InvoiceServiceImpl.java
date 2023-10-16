@@ -104,7 +104,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
-    @Override
     public String invoiceTotal(Order order, double orderTotal) {
         StringBuilder result = new StringBuilder();
 
@@ -125,7 +124,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return result.toString();
     }
 
-    private double calculateItemPrice(OrderItem item) {
+   public double calculateItemPrice(OrderItem item) {
         double price = item.getProduct().getPrice();
         double discountPercent = item.getProduct().getDiscount();
         int quantity = item.getQuantity();
@@ -136,7 +135,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return Double.parseDouble(formattedValue); // Convert it back to double
     }
 
-    private double invoiceTotal(List<OrderItem> orderItems) {
+   public double invoiceTotal(List<OrderItem> orderItems) {
         double orderTotal = orderItems.stream()
                 .mapToDouble(item -> calculateItemPrice(item))
                 .sum();

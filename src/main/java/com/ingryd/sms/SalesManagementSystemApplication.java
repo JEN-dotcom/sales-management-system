@@ -28,29 +28,29 @@ public class SalesManagementSystemApplication {
 		SpringApplication.run(SalesManagementSystemApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner run(OrderServiceImpl orderService, ProductServiceImpl productService, UserRepository userRepository, ProductRepository productRepository) {
-		return args -> {
+	// @Bean
+	// CommandLineRunner run(OrderServiceImpl orderService, ProductServiceImpl productService, UserRepository userRepository, ProductRepository productRepository) {
+	// 	return args -> {
 
-			ClassLoader classLoader = getClass().getClassLoader();
-			ObjectMapper objectMapper = new ObjectMapper();
+	// 		ClassLoader classLoader = getClass().getClassLoader();
+	// 		ObjectMapper objectMapper = new ObjectMapper();
 
-			File productsFile = new File(Objects.requireNonNull(classLoader.getResource("data/products.json")).getFile());
-			ProductDTO[] productDTOs = objectMapper.readValue(productsFile, ProductDTO[].class);
+	// 		File productsFile = new File(Objects.requireNonNull(classLoader.getResource("data/products.json")).getFile());
+	// 		ProductDTO[] productDTOs = objectMapper.readValue(productsFile, ProductDTO[].class);
 
-			for (ProductDTO productDTO : productDTOs) {
-				productService.createProduct(productDTO);
-			}
+	// 		for (ProductDTO productDTO : productDTOs) {
+	// 			productService.createProduct(productDTO);
+	// 		}
 
-			User user = User.builder()
-					.id(1L)
-					.firstName("Efe")
-					.lastName("Okorobie")
-					.email("eokoro@gmail.com")
-					.phoneNo("55757577573")
-					.build();
+	// 		User user = User.builder()
+	// 				.id(1L)
+	// 				.firstName("Efe")
+	// 				.lastName("Okorobie")
+	// 				.email("eokoro@gmail.com")
+	// 				.phoneNo("55757577573")
+	// 				.build();
 
-			User createdUser =userRepository.save(user);
+	// 		User createdUser =userRepository.save(user);
 
 //			File orderItemOneFile = new File(Objects.requireNonNull(classLoader.getResource("data/orderItemOne.json")).getFile());
 //			OrderItemDTO[] orderItemOneDTO = objectMapper.readValue(orderItemOneFile, OrderItemDTO[].class);
@@ -72,7 +72,7 @@ public class SalesManagementSystemApplication {
 //			orderService.createOrder(createdUser, orderItemsTwoDTOList);
 //			orderService.createOrder(createdUser, orderItemsThreeList);
 //			orderService.createOrder(createdUser, orderItemsFourList);
-		};
-	}
+// 		};
+// 	}
 
 }

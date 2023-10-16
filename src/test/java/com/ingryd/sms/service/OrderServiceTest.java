@@ -27,7 +27,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
-
 @SpringBootTest(classes = SalesManagementSystemApplication.class)
 public class OrderServiceTest {
 
@@ -49,8 +48,6 @@ public class OrderServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-
-
     @Test
     public void testCreateOrder() throws IOException {
 
@@ -62,19 +59,23 @@ public class OrderServiceTest {
         ClassLoader classLoader = getClass().getClassLoader();
         ObjectMapper objectMapper = new ObjectMapper();
 
-        File orderItemOneFile = new File(Objects.requireNonNull(classLoader.getResource("data/orderItemOne.json")).getFile());
+        File orderItemOneFile = new File(
+                Objects.requireNonNull(classLoader.getResource("data/orderItemOne.json")).getFile());
         OrderItemDTO[] orderItemOneDTO = objectMapper.readValue(orderItemOneFile, OrderItemDTO[].class);
         List<OrderItemDTO> orderItemsOneDTOList = new ArrayList<>(Arrays.asList(orderItemOneDTO));
 
         System.out.println(orderItemsOneDTOList);
         List<OrderItem> orderItemsList = new ArrayList<>();
 
-//        when(productRepository.findByNameAndBrand(any(String.class), any(String.class))).thenReturn((new Product(1L,"Rice", 350000.00, "naija", 100, "Aba", "local", 25)));
+        // when(productRepository.findByNameAndBrand(any(String.class),
+        // any(String.class))).thenReturn((new Product(1L,"Rice", 350000.00, "naija",
+        // 100, "Aba", "local", 25)));
 
         for (OrderItemDTO orderItemDTO : orderItemsOneDTOList) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(createdOrder);
-            orderItem.setProduct(productRepository.findByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand()).get());
+            orderItem.setProduct(
+                    productRepository.findByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand()).get());
             orderItem.setQuantity(orderItemDTO.getQuantity());
 
             orderItemsList.add(orderItem);
@@ -96,9 +97,6 @@ public class OrderServiceTest {
         assertEquals(userRepository.findById(1L).get(), resultOrder.getUser());
     }
 
-
-
-
     @Test
     public void testGetAllOrdersPaginated() {
         int pageNumber = 0;
@@ -110,7 +108,7 @@ public class OrderServiceTest {
             sampleOrders.add(new Order());
         }
         Page<Order> samplePage = new PageImpl<>(sampleOrders, pageable, sampleOrders.size());
-//        when(samplePage.getContent()).thenReturn(sampleOrders);
+        // when(samplePage.getContent()).thenReturn(sampleOrders);
 
         when(orderRepository.findAll(any(Pageable.class))).thenReturn(samplePage);
 
@@ -119,6 +117,5 @@ public class OrderServiceTest {
         assertNotNull(orders);
         assertEquals(sampleOrders.size(), orders.size());
     }
-
 
 }

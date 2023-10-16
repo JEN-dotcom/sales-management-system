@@ -10,10 +10,20 @@ import java.util.List;
 @Service
 public interface ProductService {
     public List<Product> getAllProducts();
+
     public Product getProductById(Long id);
+
     public List<Product> getProductByCategory(String category);
+
     public List<Product> getProductByName(String name);
+
     public Product createProduct(ProductDTO productDTO);
+
     public Product updateProduct(Long id, ProductDTO productDTO);
+
+    public Product updateProduct(Product product, int newStock);
+
+    public Product getProductByNameAndBrand(String name, String brand);
+
     public ResponseEntity<String> deleteProduct(Long id);
 }

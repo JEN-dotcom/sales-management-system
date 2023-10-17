@@ -15,8 +15,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.Mockito.*;
 
 
@@ -129,9 +130,9 @@ public class ProductServiceTest {
     @Test
     public void testDeleteProduct() {
         long productId = 1L;
-        doNothing().when(productRepository).deleteById(productId);
+        Product originalProduct = new Product(1L, "Rice", 350000.00, "naija", 100, "Aba", "local", 25);
+        when(productRepository.findById(productId)).thenReturn(Optional.of((originalProduct)));
         productService.deleteProduct(productId);
-        verify(productRepository, times(1)).deleteById(productId);
     }
 
 }

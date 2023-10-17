@@ -1,5 +1,7 @@
 package com.ingryd.sms.error;
 
+import java.text.ParseException;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +50,12 @@ public class GlobalExceptionHandler  {
         @ExceptionHandler( HttpRequestMethodNotSupportedException.class)
         public ResponseEntity<String> handleMethodNotSupportedException(Exception exception) {
                 return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
-                        .body("The Request method is not supported for the api ");
+                        .body("The Request method is not supported for the api");
+        }
+
+        @ExceptionHandler(ParseException.class)
+        public ResponseEntity<String> handleParseException(Exception exception) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Invalid date format. Please use yyyy-MM-dd.");
         }
 }

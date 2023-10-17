@@ -46,7 +46,7 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/product/pid{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id,@RequestBody ProductDTO productDTO) {
         Product updatedProduct = productService.updateProduct(id, productDTO);
         if (updatedProduct == null){
@@ -55,7 +55,7 @@ public class AdminController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @DeleteMapping("products/{id}")
+    @DeleteMapping("/product/id/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product successfully deleted");
@@ -76,7 +76,7 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         if (user != null){
@@ -85,7 +85,7 @@ public class AdminController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/user/{email}")
+    @GetMapping("/user/email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email){
         User user = userService.getUserByEmail(email);
         if (user != null) {
@@ -94,7 +94,7 @@ public class AdminController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/user/{firstName}")
+    @GetMapping("/user/name/{firstName}")
     public ResponseEntity<User> getUserByFirstName(@PathVariable String firstName){
         User user = userService.getUserByFirstName(firstName);
         if (user != null){
@@ -124,13 +124,13 @@ public class AdminController {
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/orders/{id}")
+    @GetMapping("/order/ad/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id){
         Order order = orderService.getOrderById(id);
         return ResponseEntity.ok(order);
     }
 
-    @GetMapping("/orders/{date}")
+    @GetMapping("/orders/date/{date}")
     public ResponseEntity<List<Order>> getOrdersByDatePaginated(@PathVariable String dateStringDDMMYYYY, @RequestParam int page, @RequestParam int pageSize) throws ParseException {
         List<Order> orderDate = orderService.getOrdersByDatePaginated(dateStringDDMMYYYY, page, pageSize);
         return ResponseEntity.ok(orderDate);

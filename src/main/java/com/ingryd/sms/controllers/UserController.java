@@ -41,7 +41,7 @@ public class UserController {
 //        return products;
 //    }
 
-    @GetMapping
+    @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
 
@@ -56,7 +56,7 @@ public class UserController {
 //        return productService.getProductById(id);
 //    }
 
-    @GetMapping("/{id}")
+    @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
 
@@ -72,7 +72,7 @@ public class UserController {
 //        return productService.getProductByName(name);
 //    }
 
-    @GetMapping("/{name}")
+    @GetMapping("/product/name/{name}")
     public ResponseEntity<List<Product>> getProductByName(@PathVariable String name) {
         List<Product> product = productService.getProductByName(name);
 
@@ -82,7 +82,7 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/products/{category}")
+    @GetMapping("/product/category/{category}")
     public ResponseEntity<List<Product>> getProductByCategory(String category){
         List<Product> product = productService.getProductByCategory(category);
         if (product != null){

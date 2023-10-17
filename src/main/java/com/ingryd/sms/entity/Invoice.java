@@ -1,11 +1,11 @@
 package com.ingryd.sms.entity;
 
 import jakarta.persistence.*;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.Date;
 
-@Setter
+@Data
 @Entity
 @Table(name = "invoices")
 public class Invoice {
@@ -15,10 +15,16 @@ public class Invoice {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "order_id", referencedColumnName = "order_id")
+    @JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false)
     private Order order;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
-    private Date invoiceDate;
+    @Column(nullable = false, name = "invoice_date")
+    private Date date;
+
+    @Column(name = "order_total")
+    private Double orderTotal;
+
+    @Column(columnDefinition = "Text", length = 1000000)
+    private String invoice;
 }

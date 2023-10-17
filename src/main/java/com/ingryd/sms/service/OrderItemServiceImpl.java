@@ -29,9 +29,11 @@ public class OrderItemServiceImpl implements OrderItemService {
         for (OrderItemDTO orderItemDTO : orderItemDTOList) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
-            orderItem.setProduct(productRepository.findByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand()));
+            orderItem.setProduct(productRepository.findByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand())
+                    .orElseThrow(() -> new ObjectNotFoundException("Product not Found")));
             orderItem.setQuantity(orderItemDTO.getQuantity());
 
+            // send mail service here
 
             orderItemsList.add(orderItem);
         }

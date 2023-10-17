@@ -1,20 +1,33 @@
 package com.ingryd.sms.service;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
+
+import org.springframework.http.ResponseEntity;
+
+
+import com.ingryd.sms.entity.Order;
 
 import com.ingryd.sms.entity.Invoice;
-import com.ingryd.sms.entity.Order;
-import org.springframework.http.ResponseEntity;
 
 public interface InvoiceService {
 
-    public Invoice createInvoice(Date date, Order order);
+    public Invoice getInvoiceById(Long id);
 
-    public List<Invoice> getAllInvoices();
+    public Invoice createInvoice(Date date, Order order);    
 
-    public Optional<Invoice> getInvoiceById(Long id);
+    public List<Invoice> getInvoicesByDate(String dateStringDDMMYYYY) throws ParseException;
 
-    public ResponseEntity<String> deleteInvoice(Long id);
+    public List<Invoice> getInvoicesByDate(String startDateStringDDMMYYYY, String endDateStringDDMMYYYY) throws ParseException;
+
+    public double getGrandTotalOfInvoices(List<Invoice> invoiceList);
+   
+    public String getGrandTotalOfInvoices(List<Invoice> invoiceList, double grandTotal);
+    
+    public String invoiceTotal(Order order, double orderTotal);
+
+    public ResponseEntity<String> deleteInvoicesBeforeDate(String dateStringDDMMYYYY) throws ParseException;
+
 }

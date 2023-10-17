@@ -113,9 +113,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 
         List<OrderItem> orderItems = order.getOrderItems();
 
-//        result.append("Order ID: ").append(order.getOrderId()).append("\n");
-//        result.append("Order Date: ").append(order.getDate()).append("\n");
-//        result.append("Items:\n");
         for (OrderItem item : orderItems) {
             result.append("- Product: ").append(item.getProduct().getName()).append("\n");
             result.append("  Price per unit: ").append(item.getProduct().getPrice()).append("\n");

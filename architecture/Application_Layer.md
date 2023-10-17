@@ -22,6 +22,10 @@ The Application Layer in the Sales Management System (SMS) comprises controllers
   - Description: Retrieve details of a specific product.
   - Functionality: Fetches and returns detailed information about a particular product or products based on its name.
 
+- **GET /products/{category}:**
+  - Description: Retrieve details of a specific product.
+  - Functionality: Fetches and returns detailed information about a particular product or products based on its category.
+  
 #### Order Endpoints:
 
 - **POST /orders:**
@@ -60,6 +64,14 @@ The Application Layer in the Sales Management System (SMS) comprises controllers
   - Description: Retrieve details of a specific user.
   - Functionality: Fetches and returns detailed information about a specific user based on their unique identifier.
 
+- **GET /user/{email}:**
+  - Description: Retrieve details of a specific user.
+  - Functionality: Fetches and returns detailed information about a specific user based on their unique email.
+
+- **GET /user/{firstName}:**
+  - Description: Retrieve details of a specific user.
+  - Functionality: Fetches and returns detailed information about a specific user based on their firstName.
+
 - **POST /user:**
   - Description: Create a new user.
   - Functionality: Accepts data to create a new user and returns the newly created user's details.
@@ -85,6 +97,10 @@ The Application Layer in the Sales Management System (SMS) comprises controllers
 - **GET /orders/{id}:**
   - Description: Retrieve details of a specific order.
   - Functionality: Fetches and returns detailed information about a specific order based on its unique identifier.
+
+- **GET /orders/{date}:**
+  - Description: Retrieve details of a specific order.
+  - Functionality: Fetches and returns detailed information about a specific order based on its range of dates.
 
 - **PUT /orders/{id}:**
   - Description: Update an existing order.

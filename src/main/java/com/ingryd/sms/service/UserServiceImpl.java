@@ -59,8 +59,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseEntity<String> deleteUser(Long id) {
-        userRepository.deleteById(id);
-        return ResponseEntity.ok("user successfully deleted");
+        if (userRepository.existsById(id)){
+            userRepository.deleteById(id);
+            return ResponseEntity.ok("user successfully deleted");
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }

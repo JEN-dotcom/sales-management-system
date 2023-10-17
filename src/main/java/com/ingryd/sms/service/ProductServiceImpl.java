@@ -73,8 +73,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<String> deleteProduct(Long id) {
-        productRepository.deleteById(id);
-        return ResponseEntity.ok("Product successfully deleted");
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return ResponseEntity.ok("Product successfully deleted");
+        }
+            return ResponseEntity.notFound().build();
     }
 
     @Override

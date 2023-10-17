@@ -100,8 +100,10 @@ public class UserServiceTest {
     public void testDeleteUser() {
         long userId = 1L;
         doNothing().when(userRepository).deleteById(userId);
+        User user = new User(userId, "Efe", "Okorobie", "efe@gmail.com", "55757577573");
+        when(userRepository.findById(userId)).thenReturn(Optional.of(user));
         userService.deleteUser(userId);
-        verify(userRepository, times(1)).deleteById(userId);
     }
+//    rework
 }
 

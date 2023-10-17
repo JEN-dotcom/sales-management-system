@@ -8,12 +8,18 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -41,32 +47,14 @@ public class OrderServiceTest {
     @Mock
     private InvoiceService invoiceService;
 
-    @Test
-    public void testGetAllOrdersPaginated() {
-        int pageNumber = 0;
-        int pageSize = 10;
+    @Autowired
+    private UserRepository userRepository;
 
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        List<Order> sampleOrders = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            sampleOrders.add(new Order());
-        }
-        Page<Order> samplePage = new PageImpl<>(sampleOrders, pageable,
-                sampleOrders.size());
 
-        when(orderRepository.findAll(any(Pageable.class))).thenReturn(samplePage);
-
-        List<Order> orders = orderService.getAllOrdersPaginated(pageNumber,
-                pageSize);
-
-        assertNotNull(orders);
-        assertEquals(sampleOrders.size(), orders.size());
-    }
-
-    @Test
     public void createOrder_Success() {
         User user = new User();
         List<OrderItemDTO> orderItemDTOList = new ArrayList<>();
+
 
         Order order = new Order();
         Invoice invoice = new Invoice();

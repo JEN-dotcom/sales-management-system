@@ -1,6 +1,7 @@
 package com.ingryd.sms.service;
 
 import com.ingryd.sms.entity.Product;
+import com.ingryd.sms.error.ObjectNotFoundException;
 import com.ingryd.sms.model.ProductDTO;
 import com.ingryd.sms.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private MailMessage mailMessage;
 
     @Override
     public List<Product> getAllProducts() {
@@ -74,5 +78,27 @@ public class ProductServiceImpl implements ProductService {
             return ResponseEntity.ok("Product successfully deleted");
         }
             return ResponseEntity.notFound().build();
+    }
+
+    @Override
+    public Product getProductByNameAndBrand(String name, String brand) {
+        return productRepository.findByNameAndBrand(name, brand)
+                .orElseThrow(() -> new ObjectNotFoundException("Product not Found"));
+    }
+
+    @Override
+    public Product updateProduct(Product product, int quantity) {
+        Product updatedProduct = product;
+        int newStock = updatedProduct.getStock() - quantity;
+        updatedProduct.setStock(newStock);
+
+        if (newStock < 20) {
+            mailMessage.sendMail("EfeOkorobie@gmail.com", "Running Low on stock",
+                    product.getName() + " of " + product.getBrand() + " is going at of stock.\n" +
+                            "Only " + newStock +
+                            " is left.");
+        }
+
+        return productRepository.save(updatedProduct);
     }
 }

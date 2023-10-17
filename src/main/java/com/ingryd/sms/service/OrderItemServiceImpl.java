@@ -8,10 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.OrderItem;
-import com.ingryd.sms.error.ObjectNotFoundException;
+import com.ingryd.sms.entity.Product;
 import com.ingryd.sms.model.OrderItemDTO;
 import com.ingryd.sms.repository.OrderItemRepository;
-import com.ingryd.sms.repository.ProductRepository;
 
 @Service
 public class OrderItemServiceImpl implements OrderItemService {
@@ -20,7 +19,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     OrderItemRepository orderItemRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    ProductService productService;
 
     @Override
     public List<OrderItem> createOrderItem(List<OrderItemDTO> orderItemDTOList, Order order) {
@@ -28,14 +27,14 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         for (OrderItemDTO orderItemDTO : orderItemDTOList) {
             OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setProduct(productRepository.findByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand())
-                    .orElseThrow(() -> new ObjectNotFoundException("Product not Found")));
+            Product product = productService.getProductByNameAndBrand(orderItemDTO.getName(), orderItemDTO.getBrand());
+
+            orderItem.setProduct(product);
             orderItem.setQuantity(orderItemDTO.getQuantity());
-
-            // send mail service here
-
+            orderItem.setOrder(order);
             orderItemsList.add(orderItem);
+
+            productService.updateProduct(product, orderItemDTO.getQuantity());
         }
         return orderItemRepository.saveAll(orderItemsList);
     }

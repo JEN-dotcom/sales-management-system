@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +36,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoice.setInvoice(invoiceTotal(order, orderTotal));
 
         return invoiceRepository.save(invoice);
+
     };
 
     @Override
@@ -107,11 +107,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     public String invoiceTotal(Order order, double orderTotal) {
         StringBuilder result = new StringBuilder();
 
-        List<OrderItem> orderItems = order.getOrderItems();
-
         result.append("Order ID: ").append(order.getOrderId()).append("\n");
         result.append("Order Date: ").append(order.getDate()).append("\n");
         result.append("Items:\n");
+
+        List<OrderItem> orderItems = order.getOrderItems();
+
         for (OrderItem item : orderItems) {
             result.append("- Product: ").append(item.getProduct().getName()).append("\n");
             result.append("  Price per unit: ").append(item.getProduct().getPrice()).append("\n");

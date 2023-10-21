@@ -21,8 +21,6 @@ public interface ProductService {
 
     public Product updateProduct(Long id, ProductDTO productDTO);
 
-    public Product updateProduct(Product product, int quantity);
-
     public Product getProductByNameAndBrand(String name, String brand);
 
     public ResponseEntity<String> deleteProduct(Long id);

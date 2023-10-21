@@ -28,7 +28,7 @@ public class OrderItemServiceTest {
     private OrderItemRepository orderItemRepository;
 
     @Mock
-    private ProductService productService;
+    private ProductServiceImpl productService;
 
     @Test
     public void createOrderItem() {

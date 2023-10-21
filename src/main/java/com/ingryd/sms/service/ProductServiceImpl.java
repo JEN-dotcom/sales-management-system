@@ -68,7 +68,6 @@ public class ProductServiceImpl implements ProductService {
         updatedProduct.setDiscount(productDTO.getDiscount());
 
         return productRepository.save(updatedProduct);
-
     }
 
     @Override
@@ -86,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ObjectNotFoundException("Product not Found"));
     }
 
-    @Override
+    
     public Product updateProduct(Product product, int quantity) {
         Product updatedProduct = product;
         int newStock = updatedProduct.getStock() - quantity;

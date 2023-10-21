@@ -19,7 +19,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     OrderItemRepository orderItemRepository;
 
     @Autowired
-    ProductService productService;
+    ProductServiceImpl productService;
 
     @Override
     public List<OrderItem> createOrderItem(List<OrderItemDTO> orderItemDTOList, Order order) {

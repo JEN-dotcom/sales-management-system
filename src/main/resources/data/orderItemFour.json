@@ -1,12 +1,22 @@
 [
     {
-        "name": "Sony PlayStation 4",
-        "brand": "Sony",
-        "quantity": 3
+        "name": "HP Envy x360 Laptop",
+        "brand": "HP",
+        "quantity": 2
     },
     {
-        "name": "Nike Air Max 90",
-        "brand": "Nike",
-        "quantity": 4
+        "name": "Adidas UltraBoost Running Shoes",
+        "brand": "Adidas",
+        "quantity": 1
+    },
+    {
+        "name": "Amazon Echo Dot (3rd Gen)",
+        "brand": "Amazon",
+        "quantity": 1
+    },
+    {
+        "name": "Fujifilm Instax Mini 9 Instant Camera",
+        "brand": "Fujifilm",
+        "quantity": 2
     }
 ]

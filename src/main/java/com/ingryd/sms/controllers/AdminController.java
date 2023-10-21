@@ -1,15 +1,15 @@
 package com.ingryd.sms.controllers;
 
+import com.ingryd.sms.entity.Invoice;
 import com.ingryd.sms.entity.Order;
 import com.ingryd.sms.entity.Product;
 import com.ingryd.sms.entity.User;
 import com.ingryd.sms.model.ProductDTO;
-import com.ingryd.sms.repository.OrderRepository;
-import com.ingryd.sms.repository.ProductRepository;
-import com.ingryd.sms.repository.UserRepository;
-import com.ingryd.sms.service.OrderServiceImpl;
-import com.ingryd.sms.service.ProductServiceImpl;
-import com.ingryd.sms.service.UserServiceImpl;
+import com.ingryd.sms.service.InvoiceService;
+import com.ingryd.sms.service.OrderService;
+import com.ingryd.sms.service.ProductService;
+import com.ingryd.sms.service.UserService;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,23 +22,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
-    @Autowired
-    private ProductRepository productRepository;
 
     @Autowired
-    private ProductServiceImpl productService;
+    private ProductService productService;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private UserServiceImpl userService;
+    private OrderService orderService;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private InvoiceService invoiceService;
 
-    @Autowired
-    private OrderServiceImpl orderService;
+    /********************************* PRODUCT *********************************/
 
     @PostMapping("/product")
     public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
@@ -46,10 +43,10 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
-    @PutMapping("/product/pid{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id,@RequestBody ProductDTO productDTO) {
+    @PutMapping("/product/id/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         Product updatedProduct = productService.updateProduct(id, productDTO);
-        if (updatedProduct == null){
+        if (updatedProduct == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updatedProduct);
@@ -61,16 +58,18 @@ public class AdminController {
         return ResponseEntity.ok("Product successfully deleted");
     }
 
+    /*********************************** USER ***********************************/
+
     @PostMapping("/user")
-    public ResponseEntity<User> createUser(@RequestBody @Valid User user){
+    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
         User createdUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
-        if (!users.isEmpty()){
+        if (!users.isEmpty()) {
             return ResponseEntity.ok(users);
         }
         return ResponseEntity.noContent().build();
@@ -79,14 +78,14 @@ public class AdminController {
     @GetMapping("/user/id/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        if (user != null){
+        if (user != null) {
             return ResponseEntity.ok(user);
         }
         return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/user/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email){
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
         User user = userService.getUserByEmail(email);
         if (user != null) {
             return ResponseEntity.ok(user);
@@ -95,44 +94,131 @@ public class AdminController {
     }
 
     @GetMapping("/user/name/{firstName}")
-    public ResponseEntity<User> getUserByFirstName(@PathVariable String firstName){
+    public ResponseEntity<User> getUserByFirstName(@PathVariable String firstName) {
         User user = userService.getUserByFirstName(firstName);
-        if (user != null){
-            return  ResponseEntity.ok(user);
+        if (user != null) {
+            return ResponseEntity.ok(user);
         }
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/user/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id,@RequestBody User user){
+    @PutMapping("/user/id/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
         User updatedUser = userService.updateUser(id, user);
-        if (updatedUser == null){
+        if (updatedUser == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/user/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+    @DeleteMapping("/user/id/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok("user successfully deleted");
     }
 
-    @GetMapping("/orders")
-    public ResponseEntity<List<Order>> getAllOrdersPaginated(@PathVariable int pageNumber,@PathVariable int pageSize){
+    /********************************* ORDER *********************************/
+
+    @GetMapping("/orders/{number}/{size}")
+    public ResponseEntity<List<Order>> getAllOrdersPaginated(@PathVariable("number") int pageNumber,
+            @PathVariable("size") int pageSize) {
         List<Order> orders = orderService.getAllOrdersPaginated(pageNumber, pageSize);
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/order/ad/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id){
+    @GetMapping("/order/id/{id}")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         Order order = orderService.getOrderById(id);
         return ResponseEntity.ok(order);
     }
 
-    @GetMapping("/orders/date/{date}")
-    public ResponseEntity<List<Order>> getOrdersByDatePaginated(@PathVariable String dateStringDDMMYYYY, @RequestParam int page, @RequestParam int pageSize) throws ParseException {
-        List<Order> orderDate = orderService.getOrdersByDatePaginated(dateStringDDMMYYYY, page, pageSize);
-        return ResponseEntity.ok(orderDate);
+    @GetMapping("/orders")
+    public ResponseEntity<List<Order>> getOrdersByDatePaginated(
+            @RequestParam(name = "date", required = false) String dateStringDDMMYYYY,
+            @RequestParam(name = "startDate", required = false) String startDateStringDDMMYYYY,
+            @RequestParam(name = "endDate", required = false) String endDateStringDDMMYYYY,
+            @RequestParam(name = "pageNumber") int pageNumber,
+            @RequestParam(name = "pageSize") int pageSize) throws ParseException {
+
+        if (dateStringDDMMYYYY != null) {
+            List<Order> orderList = orderService.getOrdersByDatePaginated(dateStringDDMMYYYY, pageNumber, pageSize);
+            if (!orderList.isEmpty()) {
+                return ResponseEntity.ok(orderList);
+            }
+        } else if (startDateStringDDMMYYYY != null && endDateStringDDMMYYYY != null) {
+            List<Order> orderList = orderService.getOrdersByDatePaginated(startDateStringDDMMYYYY,
+                    endDateStringDDMMYYYY, pageNumber, pageSize);
+            if (!orderList.isEmpty()) {
+                return ResponseEntity.ok(orderList);
+            }
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    /********************************* INVOICE *********************************/
+
+    @GetMapping("/invoices")
+    public ResponseEntity<List<Invoice>> getInvoicesByDateRange(
+            @RequestParam(name = "date", required = false) String dateStringDDMMYYYY,
+            @RequestParam(name = "startDate", required = false) String startDateStringDDMMYYYY,
+            @RequestParam(name = "endDate", required = false) String endDateStringDDMMYYYY) throws ParseException {
+
+        if (dateStringDDMMYYYY != null) {
+            List<Invoice> invoiceList = invoiceService.getInvoicesByDate(dateStringDDMMYYYY);
+            if (!invoiceList.isEmpty()) {
+                return ResponseEntity.ok(invoiceList);
+            }
+        } else if (startDateStringDDMMYYYY != null && endDateStringDDMMYYYY != null) {
+            List<Invoice> invoiceList = invoiceService.getInvoicesByDate(startDateStringDDMMYYYY,
+                    endDateStringDDMMYYYY);
+            if (!invoiceList.isEmpty()) {
+                return ResponseEntity.ok(invoiceList);
+            }
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/invoice/id/{id}")
+    public ResponseEntity<Invoice> getInvoiceById(@PathVariable Long id) {
+        Invoice invoice = invoiceService.getInvoiceById(id);
+        if (invoice != null)
+            return ResponseEntity.ok(invoice);
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/invoice/grandTotal")
+    public ResponseEntity<Double> getInvoiceGrandTotal(
+            @RequestParam(name = "date", required = false) String dateStringDDMMYYYY,
+            @RequestParam(name = "startDate", required = false) String startDateStringDDMMYYYY,
+            @RequestParam(name = "endDate", required = false) String endDateStringDDMMYYYY) throws ParseException {
+
+        ResponseEntity<List<Invoice>> responseEntity = getInvoicesByDateRange(dateStringDDMMYYYY,
+                startDateStringDDMMYYYY, endDateStringDDMMYYYY);
+
+        Double grandTotal = invoiceService.getGrandTotalOfInvoices(responseEntity.getBody());
+        return ResponseEntity.ok(grandTotal);
+    }
+
+    @GetMapping("/invoice/grandTotalDetail")
+    public ResponseEntity<String> getInvoiceGrandTotalString(
+            @RequestParam(name = "date", required = false) String dateStringDDMMYYYY,
+            @RequestParam(name = "startDate", required = false) String startDateStringDDMMYYYY,
+            @RequestParam(name = "endDate", required = false) String endDateStringDDMMYYYY) throws ParseException {
+
+        ResponseEntity<List<Invoice>> responseEntity = getInvoicesByDateRange(dateStringDDMMYYYY,
+                startDateStringDDMMYYYY, endDateStringDDMMYYYY);
+
+        ResponseEntity<Double> responseEntityDouble = getInvoiceGrandTotal(dateStringDDMMYYYY,
+                startDateStringDDMMYYYY, endDateStringDDMMYYYY);
+
+        String grandTotal = invoiceService.getGrandTotalOfInvoices(responseEntity.getBody(),
+                responseEntityDouble.getBody());
+        return ResponseEntity.ok(grandTotal);
+    }
+
+    @DeleteMapping("/invoice/date/{date}")
+    public ResponseEntity<String> deleteInvoicesBeforeDate(@PathVariable String dateStringDDMMYYYY)
+            throws ParseException {
+        return invoiceService.deleteInvoicesBeforeDate(dateStringDDMMYYYY);
     }
 }

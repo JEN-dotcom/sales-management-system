@@ -31,7 +31,7 @@
         "description": "High-end digital camera favored by professional photographers.",
         "price": 2499.99,
         "discount": 10,
-        "stock": 10,
+        "stock": 39,
         "brand": "Canon",
         "category": "Cameras"
     },
@@ -40,7 +40,7 @@
         "description": "Television with 4K Ultra HD resolution and smart TV capabilities.",
         "price": 799.99,
         "discount": 8,
-        "stock": 15,
+        "stock": 35,
         "brand": "Samsung",
         "category": "Electronics"
     },
@@ -49,7 +49,7 @@
         "description": "Fragrance known for its timeless and elegant scent.",
         "price": 69.99,
         "discount": 0,
-        "stock": 25,
+        "stock": 45,
         "brand": "Calvin Klein",
         "category": "Perfumes"
     },
@@ -58,7 +58,7 @@
         "description": "Convertible laptop with a touchscreen display for versatility.",
         "price": 849.99,
         "discount": 12,
-        "stock": 18,
+        "stock": 38,
         "brand": "HP",
         "category": "Laptops"
     },
@@ -67,7 +67,7 @@
         "description": "High-performance running shoes designed for comfort and speed.",
         "price": 129.99,
         "discount": 5,
-        "stock": 35,
+        "stock": 55,
         "brand": "Adidas",
         "category": "Footwear"
     },
@@ -85,7 +85,7 @@
         "description": "Compact instant camera for capturing memories on the go.",
         "price": 69.99,
         "discount": 8,
-        "stock": 22,
+        "stock": 32,
         "brand": "Fujifilm",
         "category": "Cameras"
     },
@@ -103,7 +103,7 @@
         "description": "High-quality OLED TV with stunning picture and sound quality.",
         "price": 1999.99,
         "discount": 5,
-        "stock": 12,
+        "stock": 42,
         "brand": "Sony",
         "category": "Electronics"
     },
@@ -112,7 +112,7 @@
         "description": "Versatile 2-in-1 laptop and tablet for productivity and creativity.",
         "price": 1199.99,
         "discount": 10,
-        "stock": 16,
+        "stock": 37,
         "brand": "Microsoft",
         "category": "Laptops"
     },
@@ -121,7 +121,7 @@
         "description": "Rugged and durable digital watch known for its toughness.",
         "price": 99.99,
         "discount": 0,
-        "stock": 25,
+        "stock": 47,
         "brand": "Casio",
         "category": "Watches"
     },
@@ -130,7 +130,7 @@
         "description": "Wireless noise-canceling headphones for immersive audio experiences.",
         "price": 299.99,
         "discount": 10,
-        "stock": 18,
+        "stock": 58,
         "brand": "Bose",
         "category": "Electronics"
     },
@@ -139,7 +139,7 @@
         "description": "Luxurious and elegant fragrance with floral and fruity notes.",
         "price": 149.99,
         "discount": 0,
-        "stock": 20,
+        "stock": 70,
         "brand": "Dior",
         "category": "Perfumes"
     },
@@ -148,7 +148,7 @@
         "description": "Entry-level DSLR camera with high-quality image capture capabilities.",
         "price": 499.99,
         "discount": 15,
-        "stock": 10,
+        "stock": 80,
         "brand": "Canon",
         "category": "Cameras"
     },
@@ -157,7 +157,7 @@
         "description": "High-performance gaming laptop with dedicated graphics for gamers.",
         "price": 1499.99,
         "discount": 5,
-        "stock": 15,
+        "stock": 95,
         "brand": "Asus",
         "category": "Laptops"
     },
@@ -166,7 +166,7 @@
         "description": "Basketball shoes designed for optimal performance and style on the court.",
         "price": 119.99,
         "discount": 5,
-        "stock": 30,
+        "stock": 90,
         "brand": "Puma",
         "category": "Footwear"
     },
@@ -175,7 +175,7 @@
         "description": "Top-of-the-line OLED TV with exceptional picture quality and smart features.",
         "price": 2799.99,
         "discount": 8,
-        "stock": 10,
+        "stock": 100,
         "brand": "LG",
         "category": "Electronics"
     },
@@ -184,16 +184,16 @@
         "description": "Sensual and seductive fragrance with floral and oriental notes.",
         "price": 89.99,
         "discount": 0,
-        "stock": 25,
+        "stock": 105,
         "brand": "Gucci",
         "category": "Perfumes"
     },
     {
-        "name": "Sony WH-1000XM4 Wireless Headphones",
-        "description": "Premium wireless headphones with industry-leading noise-canceling technology.",
-        "price": 349.99,
+        "name": "Sony PlayStation 5",
+        "description": "Gaming console with a wide range of popular games and entertainment features.",
+        "price": 500.99,
         "discount": 10,
-        "stock": 18,
+        "stock": 68,
         "brand": "Sony",
         "category": "Electronics"
     },
@@ -202,7 +202,7 @@
         "description": "High-resolution DSLR camera for professional photographers and enthusiasts.",
         "price": 2999.99,
         "discount": 10,
-        "stock": 12,
+        "stock": 52,
         "brand": "Nikon",
         "category": "Cameras"
     },
@@ -211,7 +211,7 @@
         "description": "Versatile and comfortable running shoes for athletes of all levels.",
         "price": 129.99,
         "discount": 5,
-        "stock": 35,
+        "stock": 115,
         "brand": "Nike",
         "category": "Footwear"
     },
@@ -220,7 +220,7 @@
         "description": "Large QLED TV with stunning visuals and smart features for home entertainment.",
         "price": 1999.99,
         "discount": 8,
-        "stock": 8,
+        "stock": 68,
         "brand": "Samsung",
         "category": "Electronics"
     },
@@ -229,7 +229,7 @@
         "description": "A bold and masculine fragrance with oriental and woody notes.",
         "price": 79.99,
         "discount": 0,
-        "stock": 20,
+        "stock": 110,
         "brand": "Versace",
         "category": "Cologne"
     },
@@ -238,7 +238,7 @@
         "description": "High-performance mirrorless camera with 4K video recording capabilities.",
         "price": 1799.99,
         "discount": 5,
-        "stock": 10,
+        "stock": 120,
         "brand": "Panasonic",
         "category": "Cameras"
     },
@@ -247,7 +247,7 @@
         "description": "Flagship smartphone with an advanced camera system and 5G connectivity.",
         "price": 1299.99,
         "discount": 10,
-        "stock": 15,
+        "stock": 125,
         "brand": "Samsung",
         "category": "Electronics"
     },
@@ -256,7 +256,7 @@
         "description": "Iconic luxury watch known for its precision and style.",
         "price": 19999.99,
         "discount": 0,
-        "stock": 5,
+        "stock": 135,
         "brand": "Rolex",
         "category": "Watches"
     },
@@ -265,7 +265,7 @@
         "description": "Classic sneakers with a timeless design and iconic three stripes.",
         "price": 79.99,
         "discount": 10,
-        "stock": 25,
+        "stock": 145,
         "brand": "Adidas",
         "category": "Footwear"
     },
@@ -274,7 +274,7 @@
         "description": "Premium wireless headphones with industry-leading noise-canceling technology.",
         "price": 349.99,
         "discount": 10,
-        "stock": 18,
+        "stock": 78,
         "brand": "Sony",
         "category": "Electronics"
     },
@@ -283,7 +283,7 @@
         "description": "Highly regarded skincare serum known for its rejuvenating properties.",
         "price": 79.99,
         "discount": 0,
-        "stock": 20,
+        "stock": 130,
         "brand": "Estée Lauder",
         "category": "Beauty"
     },
@@ -292,7 +292,7 @@
         "description": "Premium OLED TV with cinematic picture quality and smart features.",
         "price": 3499.99,
         "discount": 8,
-        "stock": 5,
+        "stock": 135,
         "brand": "LG",
         "category": "Electronics"
     },
@@ -301,7 +301,7 @@
         "description": "Versatile DSLR camera with great image quality for photography enthusiasts.",
         "price": 799.99,
         "discount": 12,
-        "stock": 8,
+        "stock": 88,
         "brand": "Canon",
         "category": "Cameras"
     },
@@ -310,7 +310,7 @@
         "description": "Classic and iconic sneakers known for their comfort and style.",
         "price": 89.99,
         "discount": 5,
-        "stock": 30,
+        "stock": 140,
         "brand": "Nike",
         "category": "Footwear"
     },
@@ -319,7 +319,7 @@
         "description": "Portable Bluetooth speaker with 360-degree sound for music enthusiasts.",
         "price": 299.99,
         "discount": 10,
-        "stock": 15,
+        "stock": 145,
         "brand": "Bose",
         "category": "Electronics"
     },
@@ -328,7 +328,7 @@
         "description": "Sensual and addictive fragrance with coffee and vanilla notes.",
         "price": 129.99,
         "discount": 0,
-        "stock": 18,
+        "stock": 98,
         "brand": "Yves Saint Laurent",
         "category": "Perfumes"
     },
@@ -337,7 +337,7 @@
         "description": "High-performance gaming laptop with dedicated graphics for gamers.",
         "price": 1399.99,
         "discount": 8,
-        "stock": 12,
+        "stock": 72,
         "brand": "Acer",
         "category": "Laptops"
     },
@@ -346,7 +346,7 @@
         "description": "Powerful cordless vacuum cleaner with advanced cleaning technology.",
         "price": 599.99,
         "discount": 15,
-        "stock": 10,
+        "stock": 150,
         "brand": "Dyson",
         "category": "Appliances"
     },
@@ -355,7 +355,7 @@
         "description": "High-quality action camera for capturing adventures and outdoor activities.",
         "price": 449.99,
         "discount": 10,
-        "stock": 15,
+        "stock": 155,
         "brand": "GoPro",
         "category": "Cameras"
     },
@@ -364,7 +364,7 @@
         "description": "Iconic red lipstick known for its bold and classic color.",
         "price": 19.99,
         "discount": 0,
-        "stock": 40,
+        "stock": 160,
         "brand": "MAC",
         "category": "Beauty"
     },
@@ -373,7 +373,7 @@
         "description": "Timeless and classic denim jeans known for their quality and style.",
         "price": 49.99,
         "discount": 5,
-        "stock": 30,
+        "stock": 170,
         "brand": "Levi's",
         "category": "Apparel"
     },
@@ -382,7 +382,7 @@
         "description": "Compact and waterproof speaker for music on the go.",
         "price": 99.99,
         "discount": 10,
-        "stock": 25,
+        "stock": 165,
         "brand": "JBL",
         "category": "Electronics"
     },
@@ -391,7 +391,7 @@
         "description": "Fresh and aquatic fragrance for men with citrus and woodsy notes.",
         "price": 79.99,
         "discount": 0,
-        "stock": 22,
+        "stock": 82,
         "brand": "Giorgio Armani",
         "category": "Cologne"
     },
@@ -400,7 +400,7 @@
         "description": "Iconic kitchen appliance for baking and cooking enthusiasts.",
         "price": 349.99,
         "discount": 8,
-        "stock": 12,
+        "stock": 92,
         "brand": "KitchenAid",
         "category": "Appliances"
     }

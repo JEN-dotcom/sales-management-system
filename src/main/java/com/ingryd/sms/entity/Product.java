@@ -2,6 +2,7 @@ package com.ingryd.sms.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @Table(name = "products", uniqueConstraints = {
-    @UniqueConstraint(columnNames = { "product_name", "brand_name"})
+        @UniqueConstraint(columnNames = { "product_name", "brand_name" })
 })
 public class Product {
 
@@ -26,14 +27,13 @@ public class Product {
     @Column(name = "product_name")
     private String name;
 
-
+    @NotNull
     @Column(name = "product_price")
     private double price;
 
     @NotBlank
     @Column(name = "description")
     private String description;
-
 
     @Column(name = "stock_qty")
     private int stock;

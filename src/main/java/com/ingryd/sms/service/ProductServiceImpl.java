@@ -92,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
         updatedProduct.setStock(newStock);
 
         if (newStock < 20) {
-            mailMessage.sendMail("EfeOkorobie@gmail.com", "Running Low on stock",
+            mailMessage.sendMail("johnendotcom@gmail.com", "Running Low on stock",
                     product.getName() + " of " + product.getBrand() + " is going at of stock.\n" +
                             "Only " + newStock +
                             " is left.");

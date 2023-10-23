@@ -3,20 +3,24 @@ package com.ingryd.sms;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.ingryd.sms.entity.Role;
 import com.ingryd.sms.entity.User;
 import com.ingryd.sms.model.OrderItemDTO;
 import com.ingryd.sms.model.ProductDTO;
 import com.ingryd.sms.repository.ProductRepository;
+import com.ingryd.sms.repository.RoleRepository;
 import com.ingryd.sms.repository.UserRepository;
 import com.ingryd.sms.service.OrderServiceImpl;
 import com.ingryd.sms.service.ProductServiceImpl;
@@ -30,7 +34,7 @@ public class SalesManagementSystemApplication {
 
 	@Bean
 	CommandLineRunner run(OrderServiceImpl orderService, ProductServiceImpl productService,
-			UserRepository userRepository, ProductRepository productRepository) {
+			UserRepository userRepository, ProductRepository productRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
 
 			ClassLoader classLoader = getClass().getClassLoader();
@@ -44,12 +48,19 @@ public class SalesManagementSystemApplication {
 				productService.createProduct(productDTO);
 			}
 
+			if(roleRepository.findByAuthority("ADMIN").isPresent()) return;
+            Role adminRole = roleRepository.save(new Role("ADMIN"));
+           roleRepository.save(new Role("USER"));
+
+           Set<Role> roles = new HashSet<>();
+            roles.add(adminRole);
 			User user = User.builder()
-					.id(1L)
 					.firstName("Efe")
 					.lastName("Okorobie")
 					.email("eokoro@gmail.com")
 					.phoneNo("55757577573")
+					.authorities(roles)
+					.password(passwordEncoder.encode("password"))
 					.build();
 
 			User createdUser = userRepository.save(user);

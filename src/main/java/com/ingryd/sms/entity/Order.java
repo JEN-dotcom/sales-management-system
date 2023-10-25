@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -34,5 +36,6 @@ public class Order {
     private Invoice invoice;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<OrderItem> orderItems;
 }

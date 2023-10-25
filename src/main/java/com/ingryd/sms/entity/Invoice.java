@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Data
 @Entity
 @Table(name = "invoices")
@@ -16,6 +18,7 @@ public class Invoice {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false)
+    @JsonIgnore
     private Order order;
 
     @Temporal(TemporalType.TIMESTAMP)

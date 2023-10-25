@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import com.ingryd.sms.entity.User;
+import com.ingryd.sms.error.ObjectNotFoundException;
 
 @DataJpaTest
 public class UserRepositoryTest {
@@ -73,7 +74,7 @@ public class UserRepositoryTest {
 
         user1= entityManager.persistAndFlush(user1);        
 
-        User found = userRepository.findByEmail(user1.getEmail());
+        User found = userRepository.findByEmail(user1.getEmail()).orElseThrow(() -> new ObjectNotFoundException("User does not exist"));
         assertEquals("eokoro@gmail.com", found.getEmail());
     }
 

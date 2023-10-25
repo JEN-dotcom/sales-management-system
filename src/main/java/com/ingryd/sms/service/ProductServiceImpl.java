@@ -7,12 +7,10 @@ import com.ingryd.sms.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -76,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
             productRepository.deleteById(id);
             return ResponseEntity.ok("Product successfully deleted");
         }
-            return ResponseEntity.notFound().build();
+        return ResponseEntity.notFound().build();
     }
 
     @Override
@@ -85,19 +83,18 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ObjectNotFoundException("Product not Found"));
     }
 
-    
     public Product updateProduct(Product product, int quantity) {
-        Product updatedProduct = product;
-        int newStock = updatedProduct.getStock() - quantity;
-        updatedProduct.setStock(newStock);
-
-        if (newStock < 20) {
+       
+        int newStock = product.getStock() - quantity;
+        product.setStock(newStock);
+        
+        if (newStock < 2) {
             mailMessage.sendMail("johnendotcom@gmail.com", "Running Low on stock",
                     product.getName() + " of " + product.getBrand() + " is going at of stock.\n" +
                             "Only " + newStock +
                             " is left.");
         }
 
-        return productRepository.save(updatedProduct);
+        return productRepository.save(product);
     }
 }

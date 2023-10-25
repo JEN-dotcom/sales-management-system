@@ -7,8 +7,8 @@ import com.ingryd.sms.model.OrderItemDTO;
 import com.ingryd.sms.service.OrderService;
 
 import com.ingryd.sms.service.ProductService;
+import com.ingryd.sms.service.TokenService;
 
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +25,9 @@ public class UserController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private TokenService tokenService;
 
     /********************************* PRODUCT *********************************/
 
@@ -70,8 +73,11 @@ public class UserController {
     /********************************* ORDER *********************************/
 
     @PostMapping("/order")
-    public ResponseEntity<Order> createOrder(@Valid User user, @RequestBody List<OrderItemDTO> orderItemDTOList) {
+    public ResponseEntity<Order> createOrder(@RequestHeader("Authorization") String token,
+            @RequestBody List<OrderItemDTO> orderItemDTOList) {
+        User user = tokenService.extractUserFromToken(token);
         Order createdOrder = orderService.createOrder(user, orderItemDTOList);
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
     }
 }

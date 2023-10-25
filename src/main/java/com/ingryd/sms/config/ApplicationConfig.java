@@ -23,6 +23,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 
 @Configuration
 public class ApplicationConfig {
+
     private final RSAKeyProperties keys;
 
     public ApplicationConfig(RSAKeyProperties keys) {
@@ -48,7 +49,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public JwtEncoder jwtEncoder() {
+    JwtEncoder jwtEncoder() {
         JWK jwk = new RSAKey.Builder(keys.getPublicKey()).privateKey(keys.getPrivateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
